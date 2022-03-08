@@ -16,4 +16,5 @@ public class UserController {
     public Principal oauthUser(Principal principal){
         return principal;
     }
+
 }
