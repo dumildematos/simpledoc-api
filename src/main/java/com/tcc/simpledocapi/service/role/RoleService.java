@@ -9,5 +9,5 @@ import org.springframework.stereotype.Service;
 public interface RoleService {
     Role save(Role role);
     Page<Role> getRoles(int offset, int pageSize);
-    void addRoleToUser(String roleName, String userName);
+    void addRoleToUser(String username, String roleName);
 }
