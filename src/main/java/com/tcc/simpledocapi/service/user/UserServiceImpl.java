@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -42,9 +41,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public User getDetailUser(String username) {
+        return  userRepository.findByUsername(username);
+    }
+
+    @Override
     public Page<User> getUsers(int offset, int size) {
-        Page<User> users =  userRepository.findAll(PageRequest.of(offset, size));
-        return users;
+        return userRepository.findAll(PageRequest.of(offset, size));
     }
 
     @Override
@@ -64,10 +67,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }else{
             log.info("User {} found in the database", username);
         }
-        Collection<SimpleGrantedAuthority> autorities = new ArrayList<>();
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         user.getRoles().forEach(role -> {
-            autorities.add(new SimpleGrantedAuthority(role.getName()));
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
         });
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), autorities);
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
     }
 }
