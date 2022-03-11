@@ -1,4 +1,4 @@
-package com.tcc.simpledocapi.service.user.form;
+package com.tcc.simpledocapi.service.role.form;
 
 import lombok.Data;
 

@@ -26,6 +26,7 @@ public class User {
     @GeneratedValue(strategy = AUTO)
     private Long id;
     private String username;
+
     @JsonProperty(access = WRITE_ONLY)
     private String password;
     private String firstname;
@@ -38,5 +39,8 @@ public class User {
 
     @ManyToMany(fetch = EAGER)
     private Collection<Role> roles = new ArrayList<>();
+
+    @OneToMany
+    private Collection<Team> teams = new ArrayList<>();
 
 }

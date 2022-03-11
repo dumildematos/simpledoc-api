@@ -41,11 +41,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User getDetailUser(String username) {
-        return  userRepository.findByUsername(username);
-    }
-
-    @Override
     public Page<User> getUsers(int offset, int size) {
         return userRepository.findAll(PageRequest.of(offset, size));
     }

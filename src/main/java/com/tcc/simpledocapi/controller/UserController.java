@@ -5,11 +5,10 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tcc.simpledocapi.dto.UserDetailDTO;
 import com.tcc.simpledocapi.entity.Role;
 import com.tcc.simpledocapi.entity.User;
 import com.tcc.simpledocapi.service.user.UserService;
-import com.tcc.simpledocapi.service.user.form.RoleToUserForm;
+import com.tcc.simpledocapi.service.role.form.RoleToUserForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -42,7 +41,7 @@ public class UserController {
         return principal;
     }
 
-    @PostMapping("/role/addtouser")
+    @PostMapping("/role/adduser")
     private ResponseEntity<?> addRoleToUser (@RequestBody RoleToUserForm form) {
         userService.addRoleToUser(form.getUsername(), form.getRoleName());
         return ResponseEntity.ok().build();
@@ -57,8 +56,6 @@ public class UserController {
     @GetMapping("/user/me")
     public User getUser(Principal principal){
         User user = userService.getUser(principal.getName());
-
-        //user.setPassword(null);
         log.info("User's name {} ", user);
         return user;
     }
@@ -83,7 +80,7 @@ public class UserController {
 
                 Map<String, String> tokens = new HashMap<>();
                 tokens.put("access_token", access_token);
-                tokens.put("refresh_tokens", refresh_token);
+                tokens.put("refresh_token", refresh_token);
                 response.setContentType(APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), tokens);
             }catch (Exception exception) {
