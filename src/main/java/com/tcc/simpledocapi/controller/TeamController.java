@@ -26,7 +26,6 @@ public class TeamController {
     @PostMapping("/team/create")
     public ResponseEntity<Team> createTeam(@RequestBody CreateTeamForm form, Principal principal){
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/team/create").toUriString());
-        log.info("controller");
         Team team = new Team();
         team.setName(form.getName());
         team.setDescription(form.getDescription());

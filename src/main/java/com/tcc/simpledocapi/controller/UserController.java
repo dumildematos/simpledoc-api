@@ -56,7 +56,6 @@ public class UserController {
     @GetMapping("/user/me")
     public User getUser(Principal principal){
         User user = userService.getUser(principal.getName());
-        log.info("User's name {} ", user);
         return user;
     }
 

@@ -60,7 +60,6 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
                 }
             }else {
-                log.info("teste");
                 filterChain.doFilter(request, response);
             }
         }
