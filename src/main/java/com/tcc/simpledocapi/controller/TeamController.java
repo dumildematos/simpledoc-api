@@ -29,6 +29,8 @@ public class TeamController {
         Team team = new Team();
         team.setName(form.getName());
         team.setDescription(form.getDescription());
+        team.setBanner(form.getBanner());
+        team.setType(form.getType());
         team.setCreatedAt(LocalDateTime.now());
         return  ResponseEntity.created(uri).body(teamService.createTeam(team, principal.getName()));
     }

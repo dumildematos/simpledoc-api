@@ -6,32 +6,26 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
 
 import static javax.persistence.EnumType.*;
 import static javax.persistence.GenerationType.AUTO;
 
 @Entity
-@Data
-@AllArgsConstructor
 @NoArgsConstructor
-
-public class Team {
+@AllArgsConstructor
+@Data
+public class Document {
 
     @Id
     @GeneratedValue(strategy = AUTO)
     private Long id;
     private String name;
-    private String description;
+    private String content;
     private LocalDateTime createdAt;
-    private String banner;
 
     @Enumerated(STRING)
     private ShareType type;
-
-    @ManyToMany
-    private Collection<Document> documents = new ArrayList<>();
 
 }
