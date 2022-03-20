@@ -1,8 +1,7 @@
 package com.tcc.simpledocapi.controller;
 
 import com.tcc.simpledocapi.entity.Category;
-import com.tcc.simpledocapi.service.document.category.CategoryService;
-import lombok.Data;
+import com.tcc.simpledocapi.service.category.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

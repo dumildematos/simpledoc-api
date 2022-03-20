@@ -43,4 +43,7 @@ public class User {
     @OneToMany
     private Collection<Team> teams = new ArrayList<>();
 
+    @OneToMany
+    private Collection<Template> templates = new ArrayList<>();
+
 }

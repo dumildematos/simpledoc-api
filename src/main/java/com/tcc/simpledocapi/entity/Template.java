@@ -3,7 +3,6 @@ package com.tcc.simpledocapi.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -28,5 +27,6 @@ public class Template {
     private String price;
 
     @OneToOne(cascade = ALL)
+    @JoinColumn(nullable = true)
     private Category category;
 }
