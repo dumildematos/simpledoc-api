@@ -2,10 +2,10 @@ package com.tcc.simpledocapi.controller;
 
 import com.tcc.simpledocapi.entity.Document;
 import com.tcc.simpledocapi.entity.Team;
-import com.tcc.simpledocapi.repository.TeamRepository;
+import com.tcc.simpledocapi.entity.Template;
 import com.tcc.simpledocapi.service.document.DocumentService;
 import com.tcc.simpledocapi.service.document.form.DocumentAddForm;
-import lombok.AllArgsConstructor;
+import com.tcc.simpledocapi.service.template.TemplateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 public class DocumentController {
 
     private final DocumentService documentService;
-    private final TeamRepository teamRepository;
+    private final TemplateService templateService;
 
     @PostMapping("/document/create")
     public ResponseEntity<Document> createTeamDocument(@RequestBody DocumentAddForm form){
@@ -31,7 +31,12 @@ public class DocumentController {
 
         Document document = new Document();
         document.setName(form.getName());
-        document.setContent(form.getContent());
+        if(form.getTemplateId() == null){
+            document.setContent(form.getContent());
+        }else {
+            Optional<Template> template = templateService.getTemplate(form.getTemplateId());
+            document.setContent(template.get().getContent());
+        }
         document.setType(form.getType());
         document.setCreatedAt(LocalDateTime.now());
 

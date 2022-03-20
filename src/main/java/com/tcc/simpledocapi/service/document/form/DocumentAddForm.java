@@ -9,4 +9,5 @@ public class DocumentAddForm {
     private String content;
     private ShareType type;
     private Long teamId;
+    private Long templateId;
 }
