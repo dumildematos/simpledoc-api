@@ -8,6 +8,7 @@ import com.tcc.simpledocapi.service.template.TemplateService;
 import com.tcc.simpledocapi.service.user.UserService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.mapping.Collection;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +18,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -34,7 +38,7 @@ public class TemplateController {
 
         Optional<Category> category = form.getCategoryId() != null ?  categoryService.findCategoryById(form.getCategoryId()) : null;
         Template temp = templateService.createTemplate(form.getUsername(),
-                new Template(null, form.getName(), form.getContent() , LocalDateTime.now() , form.getPrice() , form.getCategoryId() != null ? category.get() : null )
+                new Template(null, form.getName(), form.getContent() , LocalDateTime.now() , form.getPrice() , form.getCategoryId() != null ? Arrays.asList(category.get()) : null )
         );
         User user = userService.getUser(form.getUsername());
         user.getTemplates().add(temp);

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.GenerationType.AUTO;
@@ -26,7 +27,7 @@ public class Template {
     @Column(nullable = true)
     private String price;
 
-    @OneToOne(cascade = ALL)
+    @ManyToMany
     @JoinColumn(nullable = true)
-    private Category category;
+    private Collection<Category> category;
 }
