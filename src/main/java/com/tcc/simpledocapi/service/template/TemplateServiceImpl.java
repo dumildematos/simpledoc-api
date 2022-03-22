@@ -5,6 +5,8 @@ import com.tcc.simpledocapi.entity.User;
 import com.tcc.simpledocapi.repository.TemplateRepository;
 import com.tcc.simpledocapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,5 +31,10 @@ public class TemplateServiceImpl implements TemplateService{
         User user = userRepository.findByUsername(username);
         user.getTemplates().add(temp);
         return temp;
+    }
+
+    @Override
+    public Page<Template> listByCategoryId(Long categoryId, int offset, int size) {
+        return templateRepository.findTemplateByCategory(categoryId, PageRequest.of(offset, size));
     }
 }

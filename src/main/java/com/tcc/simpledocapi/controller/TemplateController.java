@@ -9,11 +9,9 @@ import com.tcc.simpledocapi.service.user.UserService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.mapping.Collection;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -44,6 +42,11 @@ public class TemplateController {
         user.getTemplates().add(temp);
 
         return ResponseEntity.created(uri).body(temp);
+    }
+
+    @GetMapping(value = "/template/list", params = {"page","size","categoryId"})
+    public ResponseEntity<Page<Template>> listTemplateByCategory(@RequestParam int page, @RequestParam int size, @RequestParam Long categoryId) {
+        return ResponseEntity.ok().body(templateService.listByCategoryId(categoryId, page, size));
     }
 
 }
