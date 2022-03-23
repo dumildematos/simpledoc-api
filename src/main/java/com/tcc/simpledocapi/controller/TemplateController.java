@@ -46,7 +46,7 @@ public class TemplateController {
 
     @GetMapping(value = "/template/list", params = {"page","size","categoryId"})
     public ResponseEntity<Page<Template>> listTemplateByCategory(@RequestParam int page, @RequestParam int size, @RequestParam Long categoryId) {
-        return ResponseEntity.ok().body(templateService.listByCategoryId(categoryId, page, size));
+        return ResponseEntity.ok().body(templateService.listFreeTemplateByCategoryId(categoryId, page, size));
     }
 
 }

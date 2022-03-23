@@ -33,7 +33,7 @@ public class DocumentImpl implements DocumentService{
     }
 
     @Override
-    public Page<Team> getDocumentsFromTeam(int offset, int size, Long teamId) {
+    public Page<Document> getDocumentsFromTeam(int offset, int size, Long teamId) {
         return documentRepository.findDocumentsByTeam(teamId, PageRequest.of(offset, size));
     }
 }

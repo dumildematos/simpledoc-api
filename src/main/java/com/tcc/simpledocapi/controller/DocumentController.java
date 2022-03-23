@@ -44,7 +44,7 @@ public class DocumentController {
     }
 
     @GetMapping(value = "/team/document/list", params = {"page", "size", "teamId"})
-    public ResponseEntity<Page<Team>> getUserTeams(@RequestParam int page, @RequestParam int size, @RequestParam Long teamId){
+    public ResponseEntity<Page<Document>> getUserTeams(@RequestParam int page, @RequestParam int size, @RequestParam Long teamId){
         return ResponseEntity.ok().body(documentService.getDocumentsFromTeam(page, size, teamId));
     }
 

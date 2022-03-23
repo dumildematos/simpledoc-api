@@ -10,5 +10,5 @@ import org.springframework.data.repository.query.Param;
 
 public interface DocumentRepository extends JpaRepository<Document, Long> {
     @Query(value = "SELECT * from document d inner join team_documents td on  d.id = td.documents_id and td.team_id = ?1", nativeQuery = true)
-    Page<Team> findDocumentsByTeam(@Param("teamId") Long teamId, Pageable pageable);
+    Page<Document> findDocumentsByTeam(@Param("teamId") Long teamId, Pageable pageable);
 }

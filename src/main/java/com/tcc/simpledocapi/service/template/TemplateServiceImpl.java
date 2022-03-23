@@ -34,7 +34,7 @@ public class TemplateServiceImpl implements TemplateService{
     }
 
     @Override
-    public Page<Template> listByCategoryId(Long categoryId, int offset, int size) {
-        return templateRepository.findTemplateByCategory(categoryId, PageRequest.of(offset, size));
+    public Page<Template> listFreeTemplateByCategoryId(Long categoryId, int offset, int size) {
+        return templateRepository.findFreeTemplateByCategory(categoryId, PageRequest.of(offset, size));
     }
 }

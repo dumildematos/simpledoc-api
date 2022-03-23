@@ -10,6 +10,6 @@ import org.springframework.data.repository.query.Param;
 public interface TemplateRepository extends JpaRepository<Template, Long> {
 
     @Query(value = "select distinct * from template t inner join template_category tc on  t.id = tc.template_id and t.price = '0.00' and tc.category_id = ?1", nativeQuery = true)
-    Page<Template> findTemplateByCategory(@Param("categoryId") Long categoryId, Pageable pageable);
+    Page<Template> findFreeTemplateByCategory(@Param("categoryId") Long categoryId, Pageable pageable);
 
 }

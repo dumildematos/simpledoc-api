@@ -8,5 +8,5 @@ import java.util.Optional;
 public interface TemplateService {
     Optional<Template> getTemplate(Long id);
     Template createTemplate(String username, Template template);
-    Page<Template> listByCategoryId(Long categoryId, int offset , int size);
+    Page<Template> listFreeTemplateByCategoryId(Long categoryId, int offset , int size);
 }
