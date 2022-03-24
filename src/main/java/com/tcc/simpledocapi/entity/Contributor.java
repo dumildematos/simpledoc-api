@@ -1,36 +1,28 @@
 package com.tcc.simpledocapi.entity;
 
-import com.tcc.simpledocapi.enums.ShareType;
+import com.tcc.simpledocapi.enums.ContributorPermission;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-
 import static javax.persistence.EnumType.*;
 import static javax.persistence.GenerationType.AUTO;
 
+
 @Entity
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-public class Document {
+public class Contributor {
 
     @Id
     @GeneratedValue(strategy = AUTO)
     private Long id;
-    private String name;
-    private String content;
-    private LocalDateTime createdAt;
+    private String username;
 
     @Enumerated(STRING)
-    private ShareType type;
-
-    @OneToMany
-    private Collection<Contributor> contributors = new ArrayList<>();
+    private ContributorPermission role;
 
 }

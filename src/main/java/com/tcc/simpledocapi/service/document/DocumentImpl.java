@@ -1,11 +1,12 @@
 package com.tcc.simpledocapi.service.document;
 
+import com.tcc.simpledocapi.entity.Contributor;
 import com.tcc.simpledocapi.entity.Document;
 import com.tcc.simpledocapi.entity.Team;
+import com.tcc.simpledocapi.entity.User;
 import com.tcc.simpledocapi.repository.DocumentRepository;
 import com.tcc.simpledocapi.repository.TeamRepository;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import com.tcc.simpledocapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,7 @@ public class DocumentImpl implements DocumentService{
 
     private final DocumentRepository documentRepository;
     private final TeamRepository teamRepository;
+    private final UserRepository userRepository;
 
     @Override
     public Document addDocumentToTeam(Long teamId , Document document) {
@@ -36,4 +38,5 @@ public class DocumentImpl implements DocumentService{
     public Page<Document> getDocumentsFromTeam(int offset, int size, Long teamId) {
         return documentRepository.findDocumentsByTeam(teamId, PageRequest.of(offset, size));
     }
+
 }

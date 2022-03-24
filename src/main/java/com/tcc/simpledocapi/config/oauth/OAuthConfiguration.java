@@ -1,4 +1,4 @@
-package com.tcc.simpledocapi.config.security.oauth;
+package com.tcc.simpledocapi.config.oauth;
 
 import org.springframework.context.annotation.Configuration;
 

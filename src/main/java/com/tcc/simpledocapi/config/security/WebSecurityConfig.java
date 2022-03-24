@@ -1,11 +1,8 @@
 package com.tcc.simpledocapi.config.security;
 
-import com.tcc.simpledocapi.config.security.oauth.CustomOAuth2UserService;
-import com.tcc.simpledocapi.config.security.oauth.Oauth2LoginSuccessHandler;
 import com.tcc.simpledocapi.filter.CustomAuthenticationFilter;
 import com.tcc.simpledocapi.filter.CustomAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,7 +10,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -48,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         customAuthenticationFilter.setFilterProcessesUrl("/api/login");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.cors().and().authorizeRequests().antMatchers( "/api/login/**", "/api/v1/token/refresh").permitAll();
+        http.cors().and().authorizeRequests().antMatchers( "/api/login/**", "/api/v1/token/refresh","/our-websocket").permitAll();
         http.authorizeRequests().antMatchers(GET, "/api/user/**").hasAnyAuthority("ROLE_USER");
         http.authorizeRequests().antMatchers(POST, "/api/v1/team/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN");
         http.authorizeRequests().antMatchers(GET, "/api/v1/team/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN");

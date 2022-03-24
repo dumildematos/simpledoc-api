@@ -1,5 +1,6 @@
 package com.tcc.simpledocapi.service.document;
 
+import com.tcc.simpledocapi.entity.Contributor;
 import com.tcc.simpledocapi.entity.Document;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
