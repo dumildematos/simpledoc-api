@@ -64,7 +64,7 @@ public class DocumentController {
         User user = userService.getUser(form.getUsername());
         if(user == null)
             throw new IllegalArgumentException("User doesnt exist");
-        Contributor contributor = new Contributor(null, form.getUsername(), form.getRole());
+        Contributor contributor = new Contributor(null, form.getUsername(), form.getTeamId(), form.getRole());
         //contributorService.addDocumentContributtor(form.getDocumentId(), contributor);
         return ResponseEntity.ok().body(contributorService.addDocumentContributtor(form.getDocumentId(), contributor));
     }

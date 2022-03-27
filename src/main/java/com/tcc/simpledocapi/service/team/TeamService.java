@@ -9,6 +9,7 @@ public interface TeamService {
 
     Team createTeam(Team team , String userName);
     Page<Team> getUserTeams(int offset, int size, String userName);
+    Page<Team> getUserInvitedTeams(int offset, int size, String userName);
     void deleteTeam(Long teamId);
     Team updateTeam(Team team);
 

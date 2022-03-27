@@ -21,7 +21,7 @@ public class Contributor {
     @GeneratedValue(strategy = AUTO)
     private Long id;
     private String username;
-
+    private Long teamId;
     @Enumerated(STRING)
     private ContributorPermission role;
 

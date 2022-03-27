@@ -13,4 +13,5 @@ public class AddContributorToDocForm {
     @Enumerated(STRING)
     private ContributorPermission role;
     private Long documentId;
+    private Long teamId;
 }

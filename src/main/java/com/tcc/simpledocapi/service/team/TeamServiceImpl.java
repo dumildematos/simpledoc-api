@@ -38,6 +38,12 @@ public class TeamServiceImpl implements TeamService{
     }
 
     @Override
+    public Page<Team> getUserInvitedTeams(int offset, int size, String userName) {
+        return teamRepository.findInvitedTeamByUsername(userName,  PageRequest.of(offset, size));
+    }
+
+
+    @Override
     public void deleteTeam(Long teamId) {
 
     }

@@ -39,4 +39,9 @@ public class TeamController {
     public ResponseEntity<Page<Team>> getUserTeams(@RequestParam int page, @RequestParam int size, Principal principal){
         return ResponseEntity.ok().body(teamService.getUserTeams(page, size, principal.getName()));
     }
+
+    @GetMapping(value = "/teams/user/invited", params = {"page", "size"})
+    public ResponseEntity<Page<Team>> getUserInvitedTeams(@RequestParam int page, @RequestParam int size, Principal principal){
+        return ResponseEntity.ok().body(teamService.getUserInvitedTeams(page, size, principal.getName()));
+    }
 }
