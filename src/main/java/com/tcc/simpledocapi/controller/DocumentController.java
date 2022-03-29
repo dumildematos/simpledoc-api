@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -36,12 +37,13 @@ public class DocumentController {
     private final SimpMessagingTemplate simpMessagingTemplate;
 
     @PostMapping("/document/create")
-    public ResponseEntity<Document> createTeamDocument(@RequestBody DocumentAddForm form){
+    public ResponseEntity<Document> createTeamDocument(@RequestBody DocumentAddForm form, Principal principal){
 
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/document/create").toUriString());
 
         Document document = new Document();
         document.setName(form.getName());
+        document.setCreator(principal.getName());
         if(form.getTemplateId() == null){
             document.setContent(form.getContent());
         }else {

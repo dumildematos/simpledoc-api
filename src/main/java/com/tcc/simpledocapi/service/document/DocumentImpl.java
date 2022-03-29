@@ -1,10 +1,8 @@
 package com.tcc.simpledocapi.service.document;
 
-import com.tcc.simpledocapi.entity.Contributor;
-import com.tcc.simpledocapi.entity.Document;
-import com.tcc.simpledocapi.entity.Team;
-import com.tcc.simpledocapi.entity.User;
+import com.tcc.simpledocapi.entity.*;
 import com.tcc.simpledocapi.repository.DocumentRepository;
+import com.tcc.simpledocapi.repository.InvitedTeamRepo;
 import com.tcc.simpledocapi.repository.TeamRepository;
 import com.tcc.simpledocapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +22,6 @@ public class DocumentImpl implements DocumentService{
 
     private final DocumentRepository documentRepository;
     private final TeamRepository teamRepository;
-    private final UserRepository userRepository;
 
     @Override
     public Document addDocumentToTeam(Long teamId , Document document) {

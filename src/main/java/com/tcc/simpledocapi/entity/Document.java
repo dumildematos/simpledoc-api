@@ -26,6 +26,7 @@ public class Document {
     private String name;
     private String content;
     private LocalDateTime createdAt;
+    private String creator;
 
     @Enumerated(STRING)
     private ShareType type;
