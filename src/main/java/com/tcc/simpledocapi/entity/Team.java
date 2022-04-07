@@ -26,6 +26,8 @@ public class Team {
     private String name;
     private String description;
     private LocalDateTime createdAt;
+
+    @Column(unique = false, nullable = false, length = 100000)
     private String banner;
 
     @Enumerated(STRING)

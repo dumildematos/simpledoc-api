@@ -42,10 +42,16 @@ public class TeamServiceImpl implements TeamService{
         return teamRepository.findInvitedTeamByUsername(userName,  PageRequest.of(offset, size));
     }
 
+    @Override
+    public Page<Team> listPublicTeams(int offset, int size) {
+        return teamRepository.findAllPublicTeams(PageRequest.of(offset, size));
+    }
+
 
     @Override
-    public void deleteTeam(Long teamId) {
-
+    public void deleteTeam(Long id) {
+        teamRepository.deleteUserTeamFromRelation(id);
+        teamRepository.deleteById(id);
     }
 
     @Override
