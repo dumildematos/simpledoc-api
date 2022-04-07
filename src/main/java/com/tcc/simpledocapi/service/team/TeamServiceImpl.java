@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -49,9 +50,17 @@ public class TeamServiceImpl implements TeamService{
 
 
     @Override
-    public void deleteTeam(Long id) {
-        teamRepository.deleteUserTeamFromRelation(id);
-        teamRepository.deleteById(id);
+    public void deleteTeam(Long id, String username) {
+        try {
+            User user = userRepository.findByUsername(username);
+            Optional<Team> team = teamRepository.findById(id);
+            user.getTeams().remove(team.get().getId());
+            userRepository.save(user);
+            userRepository.deleteUserTeamAssociation(id);
+            teamRepository.deleteById(id);
+        }catch (Exception e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     @Override

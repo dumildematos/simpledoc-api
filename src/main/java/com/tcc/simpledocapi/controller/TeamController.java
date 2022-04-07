@@ -56,8 +56,8 @@ public class TeamController {
     }
 
     @DeleteMapping(value ="/team/delete", params = {"id"})
-    public ResponseEntity<?> deleteTeam(@RequestParam Long id){
-        teamService.deleteTeam(id);
+    public ResponseEntity<?> deleteTeam(@RequestParam Long id, Principal principal){
+        teamService.deleteTeam(id, principal.getName());
         return ResponseEntity.ok().build();
     }
 }

@@ -10,7 +10,7 @@ public interface TeamService {
     Page<Team> getUserTeams(int offset, int size, String userName);
     Page<Team> getUserInvitedTeams(int offset, int size, String userName);
     Page<Team> listPublicTeams(int offset, int size);
-    void deleteTeam(Long id);
+    void deleteTeam(Long id, String username);
     Team updateTeam(Team id);
 
 }
