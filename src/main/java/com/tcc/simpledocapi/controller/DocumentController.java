@@ -11,6 +11,7 @@ import com.tcc.simpledocapi.service.template.TemplateService;
 import com.tcc.simpledocapi.service.user.UserService;
 import com.tcc.simpledocapi.service.user.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -28,6 +29,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
+@Slf4j
 public class DocumentController {
 
     private final DocumentService documentService;
@@ -63,12 +65,31 @@ public class DocumentController {
 
     @PostMapping("/document/add/contributor")
     public ResponseEntity<?> addContributorToDocumento(@RequestBody AddContributorToDocForm form){
-        User user = userService.getUser(form.getUsername());
-        if(user == null)
-            throw new IllegalArgumentException("User doesnt exist");
-        Contributor contributor = new Contributor(null, form.getUsername(), form.getTeamId(), form.getRole());
-        //contributorService.addDocumentContributtor(form.getDocumentId(), contributor);
-        return ResponseEntity.ok().body(contributorService.addDocumentContributtor(form.getDocumentId(), contributor));
+
+
+
+            User user = userService.getUser(form.getUsername());
+            Contributor cnt = contributorService.findContributorByUsername(user.getUsername());
+            log.info(String.valueOf(cnt));
+            Contributor contributor;
+            if(user == null)
+                throw new IllegalArgumentException("User doesnt exist");
+            else {
+                if(cnt != null){
+                    throw new IllegalArgumentException("Contributor already added");
+                }else {
+                    contributor = new Contributor(null,
+                            user.getUsername(),
+                            user.getFirstname(),
+                            user.getLastname(),
+                            form.getTeamId(),
+                            form.getDocumentId(),
+                            user.getAvatar(),
+                            form.getRole());
+                }
+
+            }
+        return ResponseEntity.ok().body(contributorService.addDocumentContributor(form.getDocumentId(), contributor));
     }
 
     @DeleteMapping(value = "/document/{docId}/{teamId}")
@@ -77,8 +98,6 @@ public class DocumentController {
         documentService.deleteDocument(docId, teamId);
         return ResponseEntity.ok().build();
     }
-
-
 
     @MessageMapping("/message")
     @SendTo("/chatroom/public")

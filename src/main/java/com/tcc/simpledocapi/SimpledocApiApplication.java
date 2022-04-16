@@ -36,7 +36,7 @@ public class SimpledocApiApplication {
 			userService.saveUser(new
 					User(null, "dumilde.matos@mailinator.com", "123123", "Dumilde", "Matos", "avatar", LocalDate.now(), AuthorizationProvider.LOCAL , new ArrayList<>(),new ArrayList<>() , new ArrayList<>()));
 			userService.saveUser(new
-					User(null, "anibal.antonio@mailinator.com", "123123", "Anibal", "Antonio", "avatar", LocalDate.now(), AuthorizationProvider.LOCAL , new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
+					User(null, "anibal.antonio@mailinator.com", "123123", "Anibal", "Antonio", "https://avatars.githubusercontent.com/u/4990261?v=4", LocalDate.now(), AuthorizationProvider.LOCAL , new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
 			userService.saveUser(new
 					User(null, "helio.frgao@mailinator.com", "123123", "Helio", "Fragão", "avatar", LocalDate.now(), AuthorizationProvider.LOCAL , new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
 

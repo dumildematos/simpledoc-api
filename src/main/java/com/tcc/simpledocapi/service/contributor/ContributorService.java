@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface ContributorService {
-    Contributor createContributor(Contributor contributor);
-    Contributor addDocumentContributtor(Long documentId, Contributor contributor);
+
+    Contributor addDocumentContributor(Long documentId, Contributor contributor);
+    Contributor findContributorByUsername(String username);
+    void deleteContributor(Long contrId, Long docId);
 }

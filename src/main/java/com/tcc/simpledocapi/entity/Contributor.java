@@ -20,8 +20,14 @@ public class Contributor {
     @Id
     @GeneratedValue(strategy = AUTO)
     private Long id;
+
     private String username;
+    private String firstName;
+    private String lastName;
     private Long teamId;
+    private Long documentId;
+    private String avatar;
+
     @Enumerated(STRING)
     private ContributorPermission role;
 

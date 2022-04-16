@@ -10,6 +10,7 @@ import com.tcc.simpledocapi.repository.InvitedTeamRepo;
 import com.tcc.simpledocapi.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class ContributorImpl implements ContributorService{
 
     private final ContributorRepository contributorRepository;
@@ -26,12 +28,7 @@ public class ContributorImpl implements ContributorService{
     private final UserRepository userRepository;
 
     @Override
-    public Contributor createContributor(Contributor contributor) {
-        return contributorRepository.save(contributor);
-    }
-
-    @Override
-    public Contributor addDocumentContributtor(Long documentId, Contributor contributor) {
+    public Contributor addDocumentContributor(Long documentId, Contributor contributor) {
         Optional<Document> document = documentRepository.findById(documentId);
         User user = userRepository.findByUsername(contributor.getUsername());
         Contributor cont = contributorRepository.save(contributor);
@@ -39,5 +36,16 @@ public class ContributorImpl implements ContributorService{
         invitedTeamRepo.save(invitedTeam);
         document.get().getContributors().add(cont);
         return  cont;
+    }
+
+    @Override
+    public Contributor findContributorByUsername(String username) {
+        return contributorRepository.findByUsername(username);
+    }
+
+    @Override
+    public void deleteContributor(Long contrId, Long docId) {
+        documentRepository.deleteDocumentContributorRelation(docId, contrId);
+        contributorRepository.deleteContributorFromDocument(contrId, docId);
     }
 }
