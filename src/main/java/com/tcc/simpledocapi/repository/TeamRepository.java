@@ -4,6 +4,7 @@ import com.tcc.simpledocapi.entity.Team;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -21,7 +22,8 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
     @Query(value = "select * from team t where t.type = 'PUBLIC'", nativeQuery = true)
     Page<Team> findAllPublicTeams(Pageable pageable);
 
-    @Query(value = "delete from user_teams where user_teams.teams_id =?1", nativeQuery = true)
-    void deleteUserTeamFromRelation(@Param("teamId") Long teamId);
+    @Modifying
+    @Query(value = "delete from team_documents  where team_documents.team_id = ?1", nativeQuery = true)
+    void deleteTeamDocumentRelation(@Param("teamId") Long teamId);
 
 }

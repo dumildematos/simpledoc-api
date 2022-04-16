@@ -51,20 +51,16 @@ public class TeamServiceImpl implements TeamService{
 
     @Override
     public void deleteTeam(Long id, String username) {
-        try {
-            User user = userRepository.findByUsername(username);
-            Optional<Team> team = teamRepository.findById(id);
-            user.getTeams().remove(team.get().getId());
-            userRepository.save(user);
-            userRepository.deleteUserTeamAssociation(id);
-            teamRepository.deleteById(id);
-        }catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
+        User user = userRepository.findByUsername(username);
+        Optional<Team> team = teamRepository.findById(id);
+        user.getTeams().remove(team.get().getId());
+        userRepository.save(user);
+        userRepository.deleteUserTeamAssociation(id);
+        teamRepository.deleteById(id);
     }
 
     @Override
     public Team updateTeam(Team team) {
-        return null;
+        return teamRepository.save(team);
     }
 }

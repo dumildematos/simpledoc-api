@@ -71,6 +71,13 @@ public class DocumentController {
         return ResponseEntity.ok().body(contributorService.addDocumentContributtor(form.getDocumentId(), contributor));
     }
 
+    @DeleteMapping(value = "/document/{docId}/{teamId}")
+    public ResponseEntity<Document> deleteDocument(@PathVariable Long docId, @PathVariable Long teamId){
+
+        documentService.deleteDocument(docId, teamId);
+        return ResponseEntity.ok().build();
+    }
+
 
 
     @MessageMapping("/message")

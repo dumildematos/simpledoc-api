@@ -55,9 +55,22 @@ public class TeamController {
         return ResponseEntity.ok().body(teamService.listPublicTeams(page, size));
     }
 
-    @DeleteMapping(value ="/team/delete", params = {"id"})
-    public ResponseEntity<?> deleteTeam(@RequestParam Long id, Principal principal){
-        teamService.deleteTeam(id, principal.getName());
+    @DeleteMapping(value ="/team/{teamId}")
+    public ResponseEntity<?> deleteTeam(@PathVariable(value = "teamId") Long teamId, Principal principal){
+        teamService.deleteTeam(teamId, principal.getName());
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping(value="/team/{teamId}")
+    public ResponseEntity<Team> updateTeam(@PathVariable Long teamId, @RequestBody CreateTeamForm form){
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/team/{teamId}").toUriString());
+        Team team = new Team(teamId,
+                form.getName(),
+                form.getDescription(),
+                LocalDateTime.now(),
+                form.getBanner(),
+                form.getType() ,
+                new ArrayList<>());
+        return ResponseEntity.created(uri).body(teamService.updateTeam(team));
     }
 }
