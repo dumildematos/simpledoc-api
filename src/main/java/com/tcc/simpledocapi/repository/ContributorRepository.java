@@ -18,5 +18,8 @@ public interface ContributorRepository extends JpaRepository<Contributor, Long> 
     @Query(value = "delete from contributor where contributor.id = ?1 and contributor.document_id = ?2", nativeQuery = true)
     void deleteContributorFromDocument(@Param("contrId") Long contrId,  @Param("docId") Long docId);
 
+    @Query(value = "SELECT * from contributor where contributor.username = ?1 and contributor.document_id = ?2 ", nativeQuery = true)
+    Contributor findContributor(@Param("username") String username,  @Param("docId") Long docId);
+
 
 }

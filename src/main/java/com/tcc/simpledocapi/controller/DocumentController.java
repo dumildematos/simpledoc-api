@@ -64,19 +64,17 @@ public class DocumentController {
     }
 
     @PostMapping("/document/add/contributor")
-    public ResponseEntity<?> addContributorToDocumento(@RequestBody AddContributorToDocForm form){
-
-
+    public ResponseEntity<?> addContributorToDocumento(@RequestBody AddContributorToDocForm form, Principal principal){
 
             User user = userService.getUser(form.getUsername());
-            Contributor cnt = contributorService.findContributorByUsername(user.getUsername());
+            Contributor cnt = contributorService.findContributor(user.getUsername(), form.getDocumentId());
             log.info(String.valueOf(cnt));
             Contributor contributor;
             if(user == null)
                 throw new IllegalArgumentException("User doesnt exist");
             else {
-                if(cnt != null){
-                    throw new IllegalArgumentException("Contributor already added");
+                if(cnt != null || principal.getName().equals(form.getUsername())){
+                    throw new IllegalArgumentException("Contributor can not be added");
                 }else {
                     contributor = new Contributor(null,
                             user.getUsername(),

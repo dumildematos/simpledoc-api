@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.Optional;
 
 @Service
@@ -39,13 +40,18 @@ public class ContributorImpl implements ContributorService{
     }
 
     @Override
-    public Contributor findContributorByUsername(String username) {
-        return contributorRepository.findByUsername(username);
+    public Contributor findContributor(String username, Long docId) {
+        return contributorRepository.findContributor(username, docId);
     }
 
     @Override
     public void deleteContributor(Long contrId, Long docId) {
         documentRepository.deleteDocumentContributorRelation(docId, contrId);
         contributorRepository.deleteContributorFromDocument(contrId, docId);
+    }
+
+    @Override
+    public Collection<Contributor> listDocumentContributors(Long docId) {
+        return contributorRepository.findByDocumentId(docId);
     }
 }
