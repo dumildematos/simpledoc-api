@@ -21,5 +21,8 @@ public interface ContributorRepository extends JpaRepository<Contributor, Long> 
     @Query(value = "SELECT * from contributor where contributor.username = ?1 and contributor.document_id = ?2 ", nativeQuery = true)
     Contributor findContributor(@Param("username") String username,  @Param("docId") Long docId);
 
+    @Query(value = "select c.id, c.avatar, c.document_id, c.first_name, c.last_name, c.role, c.team_id, c.username from contributor c inner join team_documents td on c.document_id = td.documents_id inner join team t on td.team_id = t.id and t.id =?1", nativeQuery = true)
+    Collection<Contributor> findTeamContributors(@Param("teamId") Long teamId);
+
 
 }

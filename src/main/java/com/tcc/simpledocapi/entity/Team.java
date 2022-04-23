@@ -36,4 +36,9 @@ public class Team {
     @ManyToMany
     private Collection<Document> documents = new ArrayList<>();
 
+    @Transient
+    private Collection<Contributor> contributors = new ArrayList<>();
+    /*@ManyToMany
+    private Collection<Contributor> contributos = new ArrayList<>();*/
+
 }

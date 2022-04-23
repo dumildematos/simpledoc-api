@@ -36,6 +36,7 @@ public class TeamController {
                 LocalDateTime.now(),
                 form.getBanner(),
                 form.getType() ,
+                new ArrayList<>(),
                 new ArrayList<>());
         return  ResponseEntity.created(uri).body(teamService.createTeam(team, principal.getName()));
     }
@@ -70,6 +71,7 @@ public class TeamController {
                 LocalDateTime.now(),
                 form.getBanner(),
                 form.getType() ,
+                new ArrayList<>(),
                 new ArrayList<>());
         return ResponseEntity.created(uri).body(teamService.updateTeam(team));
     }
