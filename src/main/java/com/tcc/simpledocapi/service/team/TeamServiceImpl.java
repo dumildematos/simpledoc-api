@@ -1,6 +1,5 @@
 package com.tcc.simpledocapi.service.team;
 
-import com.tcc.simpledocapi.entity.Contributor;
 import com.tcc.simpledocapi.entity.Team;
 import com.tcc.simpledocapi.entity.User;
 import com.tcc.simpledocapi.repository.ContributorRepository;
@@ -8,16 +7,12 @@ import com.tcc.simpledocapi.repository.TeamRepository;
 import com.tcc.simpledocapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.mapping.Map;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -39,9 +34,9 @@ public class TeamServiceImpl implements TeamService{
     }
 
     @Override
-    public Page<Team> getUserTeams(int offset, int size, String username) {
+    public Page<Team> getUserTeams(int offset, int size, String username, String teamName) {
         User user = userRepository.findByUsername(username);
-        Page<Team> teams = teamRepository.findTeamsByUser(user.getId(), PageRequest.of(offset, size));
+        Page<Team> teams = teamRepository.findTeamsByUser(user.getId(), teamName, PageRequest.of(offset, size));
        teams.getContent().stream().forEach(team -> {
              team.getContributors().addAll(contributorRepository.findTeamContributors(team.getId()));
         });
@@ -49,8 +44,8 @@ public class TeamServiceImpl implements TeamService{
     }
 
     @Override
-    public Page<Team> getUserInvitedTeams(int offset, int size, String userName) {
-        Page<Team> teams = teamRepository.findInvitedTeamByUsername(userName,  PageRequest.of(offset, size));
+    public Page<Team> getUserInvitedTeams(int offset, int size, String userName, String teamName) {
+        Page<Team> teams = teamRepository.findInvitedTeamByUsername(userName, teamName, PageRequest.of(offset, size));
         teams.getContent().stream().forEach(team -> {
             team.getContributors().addAll(contributorRepository.findTeamContributors(team.getId()));
         });
@@ -58,10 +53,9 @@ public class TeamServiceImpl implements TeamService{
     }
 
     @Override
-    public Page<Team> listPublicTeams(int offset, int size) {
-        return teamRepository.findAllPublicTeams(PageRequest.of(offset, size));
+    public Page<Team> listPublicTeams(String name, int offset, int size) {
+        return teamRepository.findAllPublicTeams(name, PageRequest.of(offset, size));
     }
-
 
     @Override
     public void deleteTeam(Long id, String username) {

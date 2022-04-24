@@ -16,8 +16,7 @@ import java.net.URI;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -41,19 +40,19 @@ public class TeamController {
         return  ResponseEntity.created(uri).body(teamService.createTeam(team, principal.getName()));
     }
 
-    @GetMapping(value = "/teams/user", params = {"page", "size"})
-    public ResponseEntity<Page<Team>> getUserTeams(@RequestParam int page, @RequestParam int size, Principal principal){
-        return ResponseEntity.ok().body(teamService.getUserTeams(page, size, principal.getName()));
+    @GetMapping(value = "/teams/user", params = {"page", "size", "name"})
+    public ResponseEntity<Page<Team>> getUserTeams(@RequestParam int page, @RequestParam int size, @RequestParam Optional<String> name,  Principal principal){
+        return ResponseEntity.ok().body(teamService.getUserTeams(page, size, principal.getName(), name.orElse("_")));
     }
 
-    @GetMapping(value = "/teams/user/invited", params = {"page", "size"})
-    public ResponseEntity<Page<Team>> getUserInvitedTeams(@RequestParam int page, @RequestParam int size, Principal principal){
-        return ResponseEntity.ok().body(teamService.getUserInvitedTeams(page, size, principal.getName()));
+    @GetMapping(value = "/teams/user/invited", params = {"page", "size", "name"})
+    public ResponseEntity<Page<Team>> getUserInvitedTeams(@RequestParam int page, @RequestParam int size, @RequestParam Optional<String> name, Principal principal){
+        return ResponseEntity.ok().body(teamService.getUserInvitedTeams(page, size, principal.getName(), name.orElse("_")));
     }
 
-    @GetMapping(value = "/teams/public", params = {"page", "size"})
-    public ResponseEntity<Page<Team>> gePulicTeams(@RequestParam int page, @RequestParam int size){
-        return ResponseEntity.ok().body(teamService.listPublicTeams(page, size));
+    @GetMapping(value = "/teams/public", params = {"page", "size", "name"})
+    public ResponseEntity<Page<Team>> gePulicTeams(@RequestParam int page, @RequestParam int size, @RequestParam Optional<String> name){
+        return ResponseEntity.ok().body(teamService.listPublicTeams(name.orElse("_"), page, size));
     }
 
     @DeleteMapping(value ="/team/{teamId}")
