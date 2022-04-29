@@ -11,4 +11,5 @@ public interface TemplateService {
     Page<Template> listFreeTemplateByCategoryId(Long categoryId, int offset , int size);
     Page<Template> listUserTemplates(Long userId,String name, int offset , int size);
     void deleteUserTemplateRelation(Long userId, Long tempId);
+    Template updateTemplate(Template template);
 }

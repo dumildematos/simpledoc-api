@@ -63,6 +63,19 @@ public class TemplateController {
         templateService.deleteUserTemplateRelation(user.getId(), id);
         return ResponseEntity.ok().build();
     };
+
+    @PutMapping("/template/{id}")
+    public ResponseEntity<Template> updateTemplate(@PathVariable("id") Long id ,@RequestBody CreateTemplateForm form) {
+        Optional<Template> oldTemp = templateService.getTemplate(id);
+        // Optional<Category> category = form.getCategoryId() != null ? categoryService.findCategoryById(form.getCategoryId()) : null;
+
+        Template template = new Template(id, form.getName(),
+                form.getContent(),
+                LocalDateTime.now() ,
+                form.getPrice(),
+                form.getCategoryId() != null ? oldTemp.get().getCategory() : null);
+        return  ResponseEntity.ok().body(templateService.updateTemplate(template));
+    }
     /*@GetMapping(value = "/template/marketplace/free", params = {"page","size","categoryId"})
     public ResponseEntity<Page<Template>> listMarketPlaceTemplates(@RequestParam int page, @RequestParam int size, @RequestParam Long categoryId) {
         return ResponseEntity.ok().body(templateService.listFreeTemplateByCategoryId(categoryId, page, size));

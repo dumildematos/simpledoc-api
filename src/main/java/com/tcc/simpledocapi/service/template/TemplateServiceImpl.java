@@ -48,4 +48,9 @@ public class TemplateServiceImpl implements TemplateService{
         templateRepository.deleteUserTemplateRelation(userId, tempId);
         templateRepository.deleteById(tempId);
     }
+
+    @Override
+    public Template updateTemplate(Template template) {
+        return templateRepository.save(template);
+    }
 }
