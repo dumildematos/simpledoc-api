@@ -44,6 +44,9 @@ public class User {
     @ManyToMany(fetch = FetchType.LAZY, cascade = ALL)
     private Collection<Team> teams = new ArrayList<>();
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = ALL)
+    private Collection<Team> invitedTeams = new ArrayList<>();
+
     @OneToMany
     private Collection<Template> templates = new ArrayList<>();
 

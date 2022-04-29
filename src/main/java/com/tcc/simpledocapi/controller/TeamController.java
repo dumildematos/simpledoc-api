@@ -51,7 +51,7 @@ public class TeamController {
     }
 
     @GetMapping(value = "/teams/public", params = {"page", "size", "name"})
-    public ResponseEntity<Page<Team>> gePulicTeams(@RequestParam int page, @RequestParam int size, @RequestParam Optional<String> name){
+    public ResponseEntity<Page<Team>> gePublicTeams(@RequestParam int page, @RequestParam int size, @RequestParam Optional<String> name){
         return ResponseEntity.ok().body(teamService.listPublicTeams(name.orElse("_"), page, size));
     }
 

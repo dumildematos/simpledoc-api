@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,14 +32,13 @@ public class TemplateController {
     private final UserService userService;
 
     @PostMapping("/template/create")
-    public ResponseEntity<Template> createTemplate(@RequestBody CreateTemplateForm form) {
+    public ResponseEntity<Template> createTemplate(@RequestBody CreateTemplateForm form, Principal principal) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/template/create").toUriString());
-
         Optional<Category> category = form.getCategoryId() != null ?  categoryService.findCategoryById(form.getCategoryId()) : null;
-        Template temp = templateService.createTemplate(form.getUsername(),
+        Template temp = templateService.createTemplate(principal.getName(),
                 new Template(null, form.getName(), form.getContent() , LocalDateTime.now() , form.getPrice() , form.getCategoryId() != null ? Arrays.asList(category.get()) : null )
         );
-        User user = userService.getUser(form.getUsername());
+        User user = userService.getUser(principal.getName());
         user.getTemplates().add(temp);
 
         return ResponseEntity.created(uri).body(temp);
@@ -49,6 +49,21 @@ public class TemplateController {
         return ResponseEntity.ok().body(templateService.listFreeTemplateByCategoryId(categoryId, page, size));
     }
 
+    @GetMapping(value = "/template/me/list", params = {"page","size","name"})
+    public ResponseEntity<Page<Template>> listUserTemplates(@RequestParam int page, @RequestParam int size, @RequestParam Optional<String> name, Principal principal) {
+        User user = userService.getUser(principal.getName());
+        return ResponseEntity.ok().body(templateService.listUserTemplates(user.getId(), name.orElse("_") , page, size));
+    }
+
+    @GetMapping(value = "/template/marketplace/free", params = {"page","size","categoryId"})
+    public ResponseEntity<Page<Template>> listMarketPlaceFreeTemplates(@RequestParam int page, @RequestParam int size, @RequestParam Long categoryId) {
+        return ResponseEntity.ok().body(templateService.listFreeTemplateByCategoryId(categoryId, page, size));
+    }
+
+    /*@GetMapping(value = "/template/marketplace/free", params = {"page","size","categoryId"})
+    public ResponseEntity<Page<Template>> listMarketPlaceTemplates(@RequestParam int page, @RequestParam int size, @RequestParam Long categoryId) {
+        return ResponseEntity.ok().body(templateService.listFreeTemplateByCategoryId(categoryId, page, size));
+    }*/
 }
 
 @Data
@@ -57,5 +72,4 @@ class CreateTemplateForm {
     private String content;
     private String price;
     private Long categoryId;
-    private String username;
 }

@@ -40,7 +40,7 @@ public class DocumentImpl implements DocumentService{
         Optional<Team> team = teamRepository.findById(teamId);
         team.get().getDocuments().remove(document.get());
         teamRepository.save(team.get());
-        teamRepository.deleteTeamDocumentRelation(teamId);
+        teamRepository.deleteTeamDocumentRelation(teamId, documentId);
         documentRepository.deleteById(documentId);
     }
 
