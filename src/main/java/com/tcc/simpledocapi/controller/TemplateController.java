@@ -8,7 +8,6 @@ import com.tcc.simpledocapi.service.template.TemplateService;
 import com.tcc.simpledocapi.service.user.UserService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.mapping.Collection;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -60,6 +57,12 @@ public class TemplateController {
         return ResponseEntity.ok().body(templateService.listFreeTemplateByCategoryId(categoryId, page, size));
     }
 
+    @DeleteMapping("/template/{id}")
+    public ResponseEntity<?> deleteTemplate(@PathVariable("id") Long id, Principal principal){
+        User user = userService.getUser(principal.getName());
+        templateService.deleteUserTemplateRelation(user.getId(), id);
+        return ResponseEntity.ok().build();
+    };
     /*@GetMapping(value = "/template/marketplace/free", params = {"page","size","categoryId"})
     public ResponseEntity<Page<Template>> listMarketPlaceTemplates(@RequestParam int page, @RequestParam int size, @RequestParam Long categoryId) {
         return ResponseEntity.ok().body(templateService.listFreeTemplateByCategoryId(categoryId, page, size));

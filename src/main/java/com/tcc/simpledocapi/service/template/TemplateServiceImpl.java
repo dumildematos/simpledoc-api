@@ -42,4 +42,10 @@ public class TemplateServiceImpl implements TemplateService{
     public Page<Template> listUserTemplates(Long userId, String name,  int offset, int size) {
         return templateRepository.findUserTemplate(userId, name , PageRequest.of(offset, size));
     }
+
+    @Override
+    public void deleteUserTemplateRelation(Long userId, Long tempId) {
+        templateRepository.deleteUserTemplateRelation(userId, tempId);
+        templateRepository.deleteById(tempId);
+    }
 }
