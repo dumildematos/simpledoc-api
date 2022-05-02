@@ -33,7 +33,7 @@ public class TemplateController {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/template/create").toUriString());
         Optional<Category> category = form.getCategoryId() != null ?  categoryService.findCategoryById(form.getCategoryId()) : null;
         Template temp = templateService.createTemplate(principal.getName(),
-                new Template(null, form.getName(), form.getContent() , LocalDateTime.now() , form.getPrice() , form.getCategoryId() != null ? Arrays.asList(category.get()) : null )
+                new Template(null, form.getName(), form.getContent(),  form.getCover() , LocalDateTime.now() , form.getPrice() , form.getCategoryId() != null ? Arrays.asList(category.get()) : null )
         );
         User user = userService.getUser(principal.getName());
         user.getTemplates().add(temp);
@@ -71,6 +71,7 @@ public class TemplateController {
 
         Template template = new Template(id, form.getName(),
                 form.getContent(),
+                form.getCover(),
                 LocalDateTime.now() ,
                 form.getPrice(),
                 form.getCategoryId() != null ? oldTemp.get().getCategory() : null);
@@ -87,5 +88,6 @@ class CreateTemplateForm {
     private String name;
     private String content;
     private String price;
+    private String cover;
     private Long categoryId;
 }
