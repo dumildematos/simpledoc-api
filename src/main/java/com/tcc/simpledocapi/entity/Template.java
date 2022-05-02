@@ -21,6 +21,7 @@ public class Template {
     @GeneratedValue(strategy = AUTO)
     private Long id;
     private String name;
+    private String description;
     private String content;
     private String cover;
     private LocalDateTime createdAt;

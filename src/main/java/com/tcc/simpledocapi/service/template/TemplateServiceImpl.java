@@ -7,6 +7,7 @@ import com.tcc.simpledocapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +37,11 @@ public class TemplateServiceImpl implements TemplateService{
     @Override
     public Page<Template> listFreeTemplateByCategoryId(Long categoryId, int offset, int size) {
         return templateRepository.findFreeTemplateByCategory(categoryId, PageRequest.of(offset, size));
+    }
+
+    @Override
+    public Page<Template> listAdminTemplatesByCategoryId(Long categoryId, String name, int offset, int size) {
+        return categoryId != 0 ? templateRepository.findAdminTemplate(categoryId, name, PageRequest.of(offset, size)) : templateRepository.findAllAdminTemplate(name, PageRequest.of(offset, size));
     }
 
     @Override

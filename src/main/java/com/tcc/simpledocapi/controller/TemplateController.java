@@ -33,7 +33,14 @@ public class TemplateController {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/template/create").toUriString());
         Optional<Category> category = form.getCategoryId() != null ?  categoryService.findCategoryById(form.getCategoryId()) : null;
         Template temp = templateService.createTemplate(principal.getName(),
-                new Template(null, form.getName(), form.getContent(),  form.getCover() , LocalDateTime.now() , form.getPrice() , form.getCategoryId() != null ? Arrays.asList(category.get()) : null )
+                new Template(null,
+                        form.getName(),
+                        form.getDescription(),
+                        form.getContent(),
+                        form.getCover() ,
+                        LocalDateTime.now() ,
+                        form.getPrice() ,
+                        form.getCategoryId() != null ? Arrays.asList(category.get()) : null )
         );
         User user = userService.getUser(principal.getName());
         user.getTemplates().add(temp);
@@ -41,8 +48,8 @@ public class TemplateController {
         return ResponseEntity.created(uri).body(temp);
     }
 
-    @GetMapping(value = "/template/list", params = {"page","size","categoryId"})
-    public ResponseEntity<Page<Template>> listTemplateByCategory(@RequestParam int page, @RequestParam int size, @RequestParam Long categoryId) {
+    @GetMapping(value = "/template/marketplace/free", params = {"page","size","categoryId"})
+    public ResponseEntity<Page<Template>> listFreeTemplateByCategory(@RequestParam int page, @RequestParam int size, @RequestParam Long categoryId) {
         return ResponseEntity.ok().body(templateService.listFreeTemplateByCategoryId(categoryId, page, size));
     }
 
@@ -52,9 +59,9 @@ public class TemplateController {
         return ResponseEntity.ok().body(templateService.listUserTemplates(user.getId(), name.orElse("_") , page, size));
     }
 
-    @GetMapping(value = "/template/marketplace/free", params = {"page","size","categoryId"})
-    public ResponseEntity<Page<Template>> listMarketPlaceFreeTemplates(@RequestParam int page, @RequestParam int size, @RequestParam Long categoryId) {
-        return ResponseEntity.ok().body(templateService.listFreeTemplateByCategoryId(categoryId, page, size));
+    @GetMapping(value = "/template/marketplace", params = {"page","size","categoryId", "name"})
+    public ResponseEntity<Page<Template>> listMarketPlaceTemplatesByCategory(@RequestParam int page, @RequestParam int size, @RequestParam Long categoryId, @RequestParam Optional<String> name) {
+        return ResponseEntity.ok().body(templateService.listAdminTemplatesByCategoryId(categoryId, name.orElse("_"), page, size));
     }
 
     @DeleteMapping("/template/{id}")
@@ -69,7 +76,9 @@ public class TemplateController {
         Optional<Template> oldTemp = templateService.getTemplate(id);
         // Optional<Category> category = form.getCategoryId() != null ? categoryService.findCategoryById(form.getCategoryId()) : null;
 
-        Template template = new Template(id, form.getName(),
+        Template template = new Template(id,
+                form.getName(),
+                form.getDescription(),
                 form.getContent(),
                 form.getCover(),
                 LocalDateTime.now() ,
@@ -77,15 +86,13 @@ public class TemplateController {
                 form.getCategoryId() != null ? oldTemp.get().getCategory() : null);
         return  ResponseEntity.ok().body(templateService.updateTemplate(template));
     }
-    /*@GetMapping(value = "/template/marketplace/free", params = {"page","size","categoryId"})
-    public ResponseEntity<Page<Template>> listMarketPlaceTemplates(@RequestParam int page, @RequestParam int size, @RequestParam Long categoryId) {
-        return ResponseEntity.ok().body(templateService.listFreeTemplateByCategoryId(categoryId, page, size));
-    }*/
+
 }
 
 @Data
 class CreateTemplateForm {
     private String name;
+    private String description;
     private String content;
     private String price;
     private String cover;
