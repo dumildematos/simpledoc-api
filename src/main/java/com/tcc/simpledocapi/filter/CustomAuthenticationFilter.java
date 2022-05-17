@@ -36,7 +36,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
     public CustomAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
-        //super(new AntPathRequestMatcher("/login", "POST"));
     }
 
     @Override
@@ -102,10 +101,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
        //super.unsuccessfulAuthentication(request, response, failed);
     }
 
-    @Data
-    private static class LoginRequest {
-        String username;
-        String password;
-    }
+
 
 }

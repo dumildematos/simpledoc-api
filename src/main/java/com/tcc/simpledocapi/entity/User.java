@@ -34,6 +34,9 @@ public class User {
     private String lastname;
     private String avatar;
     private LocalDate birthdate;
+    private String country;
+    private String contact;
+
 
     @Enumerated(STRING)
     private AuthorizationProvider authProvider;

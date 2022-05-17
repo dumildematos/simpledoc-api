@@ -52,15 +52,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .cors().and()
                         .authorizeRequests()
                             .antMatchers( "/api/login/**", "/api/v1/token/refresh").permitAll()
-                            .and().authorizeRequests().antMatchers(GET, "/api/user/**").hasAnyAuthority("ROLE_USER");
+                            .and().authorizeRequests().antMatchers(GET, "/api/user/**").hasAnyAuthority("ROLE_USER")
+                .and().logout(logout -> logout
+                        .logoutUrl("/me/logout")
+                        .invalidateHttpSession(true)).authorizeRequests();
 
         http.authorizeRequests().antMatchers(POST, "/api/v1/team/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN");
         http.authorizeRequests().antMatchers(GET, "/api/v1/team/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN");
         http.authorizeRequests().antMatchers(POST, "/api/user/save/***").hasAnyAuthority("ROLE_ADMIN");
-        http.logout(logout -> logout
-                .logoutUrl("/api/me/logout")
-                .addLogoutHandler(new SecurityContextLogoutHandler())
-        );
+
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);

@@ -5,9 +5,9 @@ server:
 
 spring:
   datasource:
-    password:
-    url: jdbc:mysql://localhost:3306/simple_doc_db
-    username: root
+    url: ${BD_URL}
+    username: ${DB_USER}
+    password: ${DB_PASS}
   jpa:
     hibernate:
       ddl-auto: create
@@ -21,8 +21,8 @@ spring:
       client:
         registration:
           google:
-            clientId: 39355448136-tkbj6j2g8n57fkn2h3uen87g833fjvjh.apps.googleusercontent.com
-            clientSecret: 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
+            clientId: ${GOOGLE_CLIENT_ID}
+            clientSecret: ${GOOGLE_CLIENT_ID}
   servlet:
     multipart:
       enabled: true
@@ -31,3 +31,21 @@ spring:
       max-request-size: 200MB
 file:
   upload-dir: /Documents/Pictures
+
+mail:
+  host: localhost
+  port: 1025
+  username: hello
+  password: hello
+
+  properties:
+    mail:
+      smtp:
+        ssl:
+          trust: "*"
+        auth: true
+        starttls:
+          enable: true
+        connectiontimeout: 5000
+        timeout: 3000
+        writetimeout: 5000
