@@ -35,7 +35,7 @@ public class User {
     private String avatar;
     private LocalDate birthdate;
     private String country;
-    private String contact;
+    private String phonenumber;
 
 
     @Enumerated(STRING)

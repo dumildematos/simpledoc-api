@@ -7,8 +7,10 @@ import com.auth0.jwt.interfaces.JWTVerifier;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tcc.simpledocapi.entity.Role;
 import com.tcc.simpledocapi.entity.User;
+import com.tcc.simpledocapi.enums.AuthorizationProvider;
 import com.tcc.simpledocapi.service.user.UserService;
 import com.tcc.simpledocapi.service.role.form.RoleToUserForm;
+import com.tcc.simpledocapi.service.user.form.UserForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -19,12 +21,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -45,6 +51,42 @@ public class UserController {
     private ResponseEntity<?> addRoleToUser (@RequestBody RoleToUserForm form) {
         userService.addRoleToUser(form.getUsername(), form.getRoleName());
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/user/register")
+    private ResponseEntity<?> addUser (@RequestBody UserForm form) {
+        User existedUser = userService.getUser(form.getUsername());
+
+        if(existedUser != null) {
+            HashMap<String, String> resBody = new HashMap<>();
+            resBody.put("message","Username already taken");
+            return ResponseEntity.ok().body(resBody);
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+
+        User user = userService.saveUser(new User(
+                null,
+                form.getUsername(),
+                form.getPassword(),
+                form.getFirstname(),
+                form.getLastname(),
+                "avatar",
+                LocalDate.parse(form.getBirthday(), formatter),
+                form.getCountry(),
+                form.getPhonenumber(),
+                AuthorizationProvider.LOCAL ,
+                new ArrayList<>(),
+                new ArrayList<>(),
+                new ArrayList<>(),
+                new ArrayList<>()
+        ));
+
+        if(user != null) {
+            userService.addRoleToUser(user.getUsername(), form.getRole());
+        }
+
+        return ResponseEntity.ok().body(user);
     }
 
     @GetMapping(value = "/user/list", params = {"page","size"})
