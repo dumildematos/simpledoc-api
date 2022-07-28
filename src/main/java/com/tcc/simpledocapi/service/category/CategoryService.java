@@ -11,4 +11,6 @@ public interface CategoryService {
     Category createCategory(Category category);
     Optional<Category> findCategoryById(Long id);
     Page<Category> listCategory(int offset, int size);
+    Category deleteCategory(Long id);
+    Category updateCategory(Category category);
 }

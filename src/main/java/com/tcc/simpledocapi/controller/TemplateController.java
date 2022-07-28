@@ -16,7 +16,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Optional;
 
 @RestController
@@ -74,8 +76,12 @@ public class TemplateController {
     @PutMapping("/template/{id}")
     public ResponseEntity<Template> updateTemplate(@PathVariable("id") Long id ,@RequestBody CreateTemplateForm form) {
         Optional<Template> oldTemp = templateService.getTemplate(id);
+        Optional<Category> category = categoryService.findCategoryById(form.getCategoryId());
         // Optional<Category> category = form.getCategoryId() != null ? categoryService.findCategoryById(form.getCategoryId()) : null;
+        if(!oldTemp.isPresent() || !category.isPresent())
+            throw new IllegalArgumentException("Template não existe");
 
+        oldTemp.get().getCategory().remove(category.get());
         Template template = new Template(id,
                 form.getName(),
                 form.getDescription(),
@@ -83,8 +89,9 @@ public class TemplateController {
                 form.getCover(),
                 LocalDateTime.now() ,
                 form.getPrice(),
-                form.getCategoryId() != null ? oldTemp.get().getCategory() : null);
-        return  ResponseEntity.ok().body(templateService.updateTemplate(template));
+                new ArrayList<>());
+        template.getCategory().add(category.get());
+        return  ResponseEntity.ok().body(templateService.updateTemplate(template, category.get()));
     }
 
 }

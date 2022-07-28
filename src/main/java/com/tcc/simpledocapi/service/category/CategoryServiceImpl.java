@@ -32,5 +32,19 @@ public class CategoryServiceImpl implements CategoryService{
         return categoryRepository.findAll(PageRequest.of(offset, size));
     }
 
+    @Override
+    public Category deleteCategory(Long id) {
+        Optional<Category> category = categoryRepository.findById(id);
+        if(!category.isPresent())
+            throw new IllegalArgumentException("");
+        categoryRepository.deleteById(id);
+        return category.get();
+    }
+
+    @Override
+    public Category updateCategory(Category category) {
+        return categoryRepository.save(category);
+    }
+
 
 }

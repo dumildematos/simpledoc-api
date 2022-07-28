@@ -1,5 +1,6 @@
 package com.tcc.simpledocapi.service.template;
 
+import com.tcc.simpledocapi.entity.Category;
 import com.tcc.simpledocapi.entity.Template;
 import com.tcc.simpledocapi.entity.User;
 import com.tcc.simpledocapi.repository.TemplateRepository;
@@ -56,7 +57,9 @@ public class TemplateServiceImpl implements TemplateService{
     }
 
     @Override
-    public Template updateTemplate(Template template) {
+    public Template updateTemplate(Template template, Category category) {
+        Template tmp = templateRepository.getById(template.getId());
+        tmp.getCategory().clear();
         return templateRepository.save(template);
     }
 }

@@ -53,9 +53,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         .authorizeRequests()
                             .antMatchers( "/api/login/**", "/api/v1/token/refresh", "/api/v1/user/register/**").permitAll()
                             .and().authorizeRequests().antMatchers(GET, "/api/user/**").hasAnyAuthority("ROLE_USER")
-                .and().logout(logout -> logout
+                .and().logout()
                         .logoutUrl("/me/logout")
-                        .invalidateHttpSession(true)).authorizeRequests();
+                        .invalidateHttpSession(true).permitAll();
 
         http.authorizeRequests().antMatchers(POST, "/api/v1/team/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN");
         http.authorizeRequests().antMatchers(GET, "/api/v1/team/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN");

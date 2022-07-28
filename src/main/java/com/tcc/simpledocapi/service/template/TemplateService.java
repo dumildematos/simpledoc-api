@@ -1,5 +1,6 @@
 package com.tcc.simpledocapi.service.template;
 
+import com.tcc.simpledocapi.entity.Category;
 import com.tcc.simpledocapi.entity.Template;
 import org.springframework.data.domain.Page;
 
@@ -12,6 +13,6 @@ public interface TemplateService {
     Page<Template> listAdminTemplatesByCategoryId(Long categoryId, String name, int offset , int size);
     Page<Template> listUserTemplates(Long userId,String name, int offset , int size);
     void deleteUserTemplateRelation(Long userId, Long tempId);
-    Template updateTemplate(Template template);
+    Template updateTemplate(Template template, Category category);
     
 }

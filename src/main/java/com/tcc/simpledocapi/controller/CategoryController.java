@@ -29,4 +29,16 @@ public class CategoryController {
         return ResponseEntity.ok().body(categoryService.listCategory(page, size));
     }
 
+    @DeleteMapping (value ="/category/{id}")
+    public ResponseEntity<Category> deleteCategory(@PathVariable Long id) {
+        return ResponseEntity.ok().body(categoryService.deleteCategory(id));
+    }
+
+    @PutMapping(value="/category/{id}")
+    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody Category category) {
+        if(!id.equals(category.getId()))
+            throw new IllegalArgumentException("Operação inválida");
+        return ResponseEntity.ok().body(categoryService.updateCategory(category));
+    }
+
 }

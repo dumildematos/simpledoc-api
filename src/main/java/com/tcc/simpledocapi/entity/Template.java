@@ -8,7 +8,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
-import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.GenerationType.AUTO;
 
 @Entity
@@ -22,6 +21,7 @@ public class Template {
     private Long id;
     private String name;
     private String description;
+    @Column(length = 1000000000)
     private String content;
     private String cover;
     private LocalDateTime createdAt;
