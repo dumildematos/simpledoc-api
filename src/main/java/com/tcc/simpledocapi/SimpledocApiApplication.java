@@ -35,6 +35,22 @@ public class SimpledocApiApplication {
 
 			userService.saveUser(new
 					User(null,
+					"admin@mailinator.com",
+					"123123",
+					"Administrator",
+					"User",
+					"https://cdn-icons-png.flaticon.com/512/149/149071.png",
+					LocalDate.now(),
+					"Angola",
+					"+244945104652",
+					AuthorizationProvider.LOCAL ,
+					new ArrayList<>(),
+					new ArrayList<>(),
+					new ArrayList<>() ,
+					new ArrayList<>()));
+
+			userService.saveUser(new
+					User(null,
 					"dumilde.matos@mailinator.com",
 					"123123",
 					"Dumilde",
@@ -68,7 +84,8 @@ public class SimpledocApiApplication {
 					User(null, "helio.fragao@mailinator.com", "123123", "Helio", "Fragão", "avatar", LocalDate.now(),				"Angola",
 					"+244945104652", AuthorizationProvider.LOCAL , new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
 
-			userService.addRoleToUser("dumilde.matos@mailinator.com", "ROLE_ADMIN");
+			userService.addRoleToUser("admin@mailinator.com", "ROLE_ADMIN");
+			userService.addRoleToUser("dumilde.matos@mailinator.com", "ROLE_USER");
 			userService.addRoleToUser("anibal.antonio@mailinator.com", "ROLE_USER");
 			userService.addRoleToUser("helio.fragao@mailinator.com", "ROLE_USER");
 

@@ -23,6 +23,7 @@ public class Template {
     private String description;
     @Column(length = 1000000000)
     private String content;
+    @Column(length = 1000000000)
     private String cover;
     private LocalDateTime createdAt;
 

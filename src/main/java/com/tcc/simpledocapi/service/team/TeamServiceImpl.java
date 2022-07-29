@@ -58,6 +58,11 @@ public class TeamServiceImpl implements TeamService{
     }
 
     @Override
+    public Page<Team> listTeams(int offset, int size) {
+        return teamRepository.findAll(PageRequest.of(offset, size));
+    }
+
+    @Override
     public void deleteTeam(Long id, String username) {
         User user = userRepository.findByUsername(username);
         Optional<Team> team = teamRepository.findById(id);

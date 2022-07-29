@@ -11,6 +11,8 @@ public interface TeamService {
     Page<Team> getUserInvitedTeams(int offset, int size, String userName, String teamName);
     Page<Team> listPublicTeams(String name, int offset, int size);
 
+    Page<Team> listTeams(int offset, int size);
+
     void deleteTeam(Long id, String username);
     Team updateTeam(Team id);
 

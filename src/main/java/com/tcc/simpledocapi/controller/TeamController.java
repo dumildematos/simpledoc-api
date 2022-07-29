@@ -51,8 +51,13 @@ public class TeamController {
     }
 
     @GetMapping(value = "/teams/public", params = {"page", "size", "name"})
-    public ResponseEntity<Page<Team>> gePublicTeams(@RequestParam int page, @RequestParam int size, @RequestParam Optional<String> name){
+    public ResponseEntity<Page<Team>> getPublicTeams(@RequestParam int page, @RequestParam int size, @RequestParam Optional<String> name){
         return ResponseEntity.ok().body(teamService.listPublicTeams(name.orElse("_"), page, size));
+    }
+
+    @GetMapping(value = "/teams", params = {"page", "size"})
+    public ResponseEntity<Page<Team>> getTeams(@RequestParam int page, @RequestParam int size, @RequestParam Optional<String> name){
+        return ResponseEntity.ok().body(teamService.listTeams(page, size));
     }
 
     @DeleteMapping(value ="/team/{teamId}")
