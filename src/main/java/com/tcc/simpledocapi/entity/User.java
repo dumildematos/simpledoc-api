@@ -32,6 +32,7 @@ public class User {
     private String password;
     private String firstname;
     private String lastname;
+    @Column(length = 100000)
     private String avatar;
     private LocalDate birthdate;
     private String country;

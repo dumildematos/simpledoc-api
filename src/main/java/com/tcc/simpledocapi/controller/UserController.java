@@ -71,7 +71,7 @@ public class UserController {
                 form.getPassword(),
                 form.getFirstname(),
                 form.getLastname(),
-                "avatar",
+                "",
                 LocalDate.parse(form.getBirthday(), formatter),
                 form.getCountry(),
                 form.getPhonenumber(),
@@ -97,8 +97,7 @@ public class UserController {
 
     @GetMapping("/user/me")
     public User getUser(Principal principal){
-        User user = userService.getUser(principal.getName());
-        return user;
+        return userService.getUser(principal.getName());
     }
 
     @GetMapping("/token/refresh")

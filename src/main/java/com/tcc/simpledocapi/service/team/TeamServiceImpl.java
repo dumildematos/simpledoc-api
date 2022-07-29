@@ -46,7 +46,7 @@ public class TeamServiceImpl implements TeamService{
     @Override
     public Page<Team> getUserInvitedTeams(int offset, int size, String userName, String teamName) {
         Page<Team> teams = teamRepository.findInvitedTeamByUsername(userName, teamName, PageRequest.of(offset, size));
-        teams.getContent().stream().forEach(team -> {
+        teams.getContent().forEach(team -> {
             team.getContributors().addAll(contributorRepository.findTeamContributors(team.getId()));
         });
         return teams;
@@ -59,7 +59,11 @@ public class TeamServiceImpl implements TeamService{
 
     @Override
     public Page<Team> listTeams(int offset, int size) {
-        return teamRepository.findAll(PageRequest.of(offset, size));
+        Page<Team> teams = teamRepository.findAll(PageRequest.of(offset, size));
+        teams.getContent().forEach(team -> {
+            team.getContributors().addAll(contributorRepository.findTeamContributors(team.getId()));
+        });
+        return teams;
     }
 
     @Override

@@ -55,7 +55,7 @@ public class SimpledocApiApplication {
 					"123123",
 					"Dumilde",
 					"Matos",
-					"avatar",
+					"",
 					LocalDate.now(),
 					"Angola",
 					"+244945104652",
@@ -71,7 +71,7 @@ public class SimpledocApiApplication {
 					"123123",
 					"Anibal",
 					"Antonio",
-					"https://avatars.githubusercontent.com/u/4990261?v=4",
+					"",
 					LocalDate.now(),
 					"Angola",
 					"+244945104652",
@@ -81,7 +81,7 @@ public class SimpledocApiApplication {
 					new ArrayList<>(),
 					new ArrayList<>()));
 			userService.saveUser(new
-					User(null, "helio.fragao@mailinator.com", "123123", "Helio", "Fragão", "avatar", LocalDate.now(),				"Angola",
+					User(null, "helio.fragao@mailinator.com", "123123", "Helio", "Fragão", "", LocalDate.now(),				"Angola",
 					"+244945104652", AuthorizationProvider.LOCAL , new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
 
 			userService.addRoleToUser("admin@mailinator.com", "ROLE_ADMIN");
