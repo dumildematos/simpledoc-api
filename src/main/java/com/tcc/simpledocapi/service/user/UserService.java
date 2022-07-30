@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Optional;
 
 public interface UserService {
-    User saveUser(User user);
+    User saveUser(User user, String roleName);
     User getUser(String username);
     void addRoleToUser(String userName, String roleName);
     Page<User> getUsers(int offset, int size);

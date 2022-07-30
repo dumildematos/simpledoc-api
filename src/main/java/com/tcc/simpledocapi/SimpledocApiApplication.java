@@ -3,6 +3,7 @@ package com.tcc.simpledocapi;
 import com.tcc.simpledocapi.entity.Role;
 import com.tcc.simpledocapi.entity.User;
 import com.tcc.simpledocapi.enums.AuthorizationProvider;
+import com.tcc.simpledocapi.enums.Avatar;
 import com.tcc.simpledocapi.service.role.RoleService;
 import com.tcc.simpledocapi.service.user.UserService;
 import org.springframework.boot.CommandLineRunner;
@@ -11,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -39,7 +41,7 @@ public class SimpledocApiApplication {
 					"123123",
 					"Administrator",
 					"User",
-					"https://cdn-icons-png.flaticon.com/512/149/149071.png",
+					Avatar.getBase(),
 					LocalDate.now(),
 					"Angola",
 					"+244945104652",
@@ -47,7 +49,7 @@ public class SimpledocApiApplication {
 					new ArrayList<>(),
 					new ArrayList<>(),
 					new ArrayList<>() ,
-					new ArrayList<>()));
+					new ArrayList<>()), "ROLE_ADMIN");
 
 			userService.saveUser(new
 					User(null,
@@ -55,7 +57,7 @@ public class SimpledocApiApplication {
 					"123123",
 					"Dumilde",
 					"Matos",
-					"",
+					Avatar.getBase(),
 					LocalDate.now(),
 					"Angola",
 					"+244945104652",
@@ -63,7 +65,7 @@ public class SimpledocApiApplication {
 					new ArrayList<>(),
 					new ArrayList<>(),
 					new ArrayList<>() ,
-					new ArrayList<>()));
+					new ArrayList<>()), "ROLE_USER");
 
 			userService.saveUser(new
 					User(null,
@@ -71,7 +73,7 @@ public class SimpledocApiApplication {
 					"123123",
 					"Anibal",
 					"Antonio",
-					"",
+					Avatar.getBase(),
 					LocalDate.now(),
 					"Angola",
 					"+244945104652",
@@ -79,15 +81,12 @@ public class SimpledocApiApplication {
 					new ArrayList<>(),
 					new ArrayList<>(),
 					new ArrayList<>(),
-					new ArrayList<>()));
+					new ArrayList<>()), "ROLE_USER");
 			userService.saveUser(new
-					User(null, "helio.fragao@mailinator.com", "123123", "Helio", "Fragão", "", LocalDate.now(),				"Angola",
-					"+244945104652", AuthorizationProvider.LOCAL , new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
+					User(null, "helio.fragao@mailinator.com", "123123", "Helio", "Fragão", Avatar.getBase(), LocalDate.now(),				"Angola",
+					"+244945104652", AuthorizationProvider.LOCAL , new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()), "ROLE_USER");
 
-			userService.addRoleToUser("admin@mailinator.com", "ROLE_ADMIN");
-			userService.addRoleToUser("dumilde.matos@mailinator.com", "ROLE_USER");
-			userService.addRoleToUser("anibal.antonio@mailinator.com", "ROLE_USER");
-			userService.addRoleToUser("helio.fragao@mailinator.com", "ROLE_USER");
+
 
 		};
 	}

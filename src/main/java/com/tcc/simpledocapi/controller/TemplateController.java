@@ -77,11 +77,12 @@ public class TemplateController {
     public ResponseEntity<Template> updateTemplate(@PathVariable("id") Long id ,@RequestBody CreateTemplateForm form) {
         Optional<Template> oldTemp = templateService.getTemplate(id);
         Optional<Category> category = categoryService.findCategoryById(form.getCategoryId());
+
         // Optional<Category> category = form.getCategoryId() != null ? categoryService.findCategoryById(form.getCategoryId()) : null;
-        if(!oldTemp.isPresent() || !category.isPresent())
+        if(!oldTemp.isPresent())
             throw new IllegalArgumentException("Template não existe");
 
-        oldTemp.get().getCategory().remove(category.get());
+        oldTemp.get().getCategory().clear();
         Template template = new Template(id,
                 form.getName(),
                 form.getDescription(),
@@ -90,8 +91,9 @@ public class TemplateController {
                 LocalDateTime.now() ,
                 form.getPrice(),
                 new ArrayList<>());
-        template.getCategory().add(category.get());
-        return  ResponseEntity.ok().body(templateService.updateTemplate(template, category.get()));
+
+        category.ifPresent(value -> template.getCategory().add(value));
+        return  ResponseEntity.ok().body(templateService.updateTemplate(template));
     }
 
 }

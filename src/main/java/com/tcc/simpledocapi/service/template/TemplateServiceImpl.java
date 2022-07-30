@@ -57,7 +57,7 @@ public class TemplateServiceImpl implements TemplateService{
     }
 
     @Override
-    public Template updateTemplate(Template template, Category category) {
+    public Template updateTemplate(Template template) {
         Template tmp = templateRepository.getById(template.getId());
         tmp.getCategory().clear();
         return templateRepository.save(template);

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tcc.simpledocapi.entity.Role;
 import com.tcc.simpledocapi.entity.User;
 import com.tcc.simpledocapi.enums.AuthorizationProvider;
+import com.tcc.simpledocapi.enums.Avatar;
 import com.tcc.simpledocapi.service.user.UserService;
 import com.tcc.simpledocapi.service.role.form.RoleToUserForm;
 import com.tcc.simpledocapi.service.user.form.UserForm;
@@ -65,13 +66,13 @@ public class UserController {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
 
-        User user = userService.saveUser(new User(
+        User user = new User(
                 null,
                 form.getUsername(),
                 form.getPassword(),
                 form.getFirstname(),
                 form.getLastname(),
-                "",
+                Avatar.getBase(),
                 LocalDate.parse(form.getBirthday(), formatter),
                 form.getCountry(),
                 form.getPhonenumber(),
@@ -80,13 +81,9 @@ public class UserController {
                 new ArrayList<>(),
                 new ArrayList<>(),
                 new ArrayList<>()
-        ));
+        );
 
-        if(user != null) {
-            userService.addRoleToUser(user.getUsername(), form.getRole());
-        }
-
-        return ResponseEntity.ok().body(user);
+        return ResponseEntity.ok().body(userService.saveUser(user, form.getRole()));
     }
 
     @GetMapping(value = "/user/list", params = {"page","size"})
