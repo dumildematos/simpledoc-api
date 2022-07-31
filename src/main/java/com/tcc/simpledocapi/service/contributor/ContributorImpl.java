@@ -23,12 +23,16 @@ public class ContributorImpl implements ContributorService{
 
     @Override
     public Contributor addDocumentContributor(Long documentId, Contributor contributor) {
+
         Optional<Document> document = documentRepository.findById(documentId);
+
         User user = userRepository.findByUsername(contributor.getUsername());
-        Contributor cont = contributorRepository.save(contributor);
         Optional<Team> team = teamRepository.findById(contributor.getTeamId());
-        user.getInvitedTeams().add(team.get());
-        document.get().getContributors().add(cont);
+        team.ifPresent(value -> user.getInvitedTeams().add(value));
+
+        Contributor cont = contributorRepository.save(contributor);
+        document.ifPresent(value -> value.getContributors().add(cont));
+
         return  cont;
     }
 

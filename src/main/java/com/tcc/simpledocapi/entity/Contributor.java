@@ -26,6 +26,7 @@ public class Contributor {
     private String lastName;
     private Long teamId;
     private Long documentId;
+    @Column(length = 100000)
     private String avatar;
 
     @Enumerated(STRING)
