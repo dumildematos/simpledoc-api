@@ -24,10 +24,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -56,9 +53,9 @@ public class UserController {
 
     @PostMapping("/user/register")
     private ResponseEntity<?> addUser (@RequestBody UserForm form) {
-        User existedUser = userService.getUser(form.getUsername());
+        Optional<User> existedUser = Optional.ofNullable(userService.getUser(form.getUsername()));
 
-        if(existedUser != null) {
+        if(existedUser.isPresent()) {
             HashMap<String, String> resBody = new HashMap<>();
             resBody.put("message","Username already taken");
             return ResponseEntity.ok().body(resBody);
@@ -81,6 +78,33 @@ public class UserController {
                 new ArrayList<>(),
                 new ArrayList<>(),
                 new ArrayList<>()
+        );
+
+        return ResponseEntity.ok().body(userService.saveUser(user, form.getRole()));
+    }
+
+    @PutMapping("user/edit")
+    public ResponseEntity<?> editUser(@RequestBody UserForm form){
+
+        User oldUser = userService.getUser(form.getUsername());
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+
+        User user = new User(
+                form.getId(),
+                form.getUsername(),
+                form.getPassword(),
+                form.getFirstname(),
+                form.getLastname(),
+                form.getAvatar(),
+                LocalDate.parse(form.getBirthday(), formatter),
+                form.getCountry(),
+                form.getPhonenumber(),
+                AuthorizationProvider.LOCAL ,
+                oldUser.getRoles(),
+                oldUser.getTeams(),
+                oldUser.getInvitedTeams(),
+                oldUser.getTemplates()
         );
 
         return ResponseEntity.ok().body(userService.saveUser(user, form.getRole()));

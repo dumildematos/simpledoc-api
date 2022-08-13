@@ -45,6 +45,7 @@ public class ContributorImpl implements ContributorService{
     public void deleteContributor(Long contrId, Long docId) {
         documentRepository.deleteDocumentContributorRelation(docId, contrId);
         contributorRepository.deleteContributorFromDocument(contrId, docId);
+        teamRepository.findById(docId);
     }
 
     @Override

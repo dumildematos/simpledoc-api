@@ -26,13 +26,14 @@ public class User {
     @Id
     @GeneratedValue(strategy = AUTO)
     private Long id;
+    @Column(unique = true)
     private String username;
 
     @JsonProperty(access = WRITE_ONLY)
     private String password;
     private String firstname;
     private String lastname;
-    @Column(length = 100000)
+    @Column(length = 10000000)
     private String avatar;
     private LocalDate birthdate;
     private String country;

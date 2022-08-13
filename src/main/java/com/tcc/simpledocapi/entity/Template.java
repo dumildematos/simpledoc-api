@@ -20,6 +20,7 @@ public class Template {
     @GeneratedValue(strategy = AUTO)
     private Long id;
     private String name;
+    @Column(length = 1000)
     private String description;
     @Column(length = 1000000000)
     private String content;

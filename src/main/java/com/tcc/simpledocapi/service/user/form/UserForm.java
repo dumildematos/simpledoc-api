@@ -6,6 +6,8 @@ import java.time.LocalDate;
 
 @Data
 public class UserForm {
+    private long id;
+    private String avatar;
     private String firstname;
     private String lastname;
     private String username;
@@ -15,3 +17,4 @@ public class UserForm {
     private String phonenumber;
     private String role;
 }
+

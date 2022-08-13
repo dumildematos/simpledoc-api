@@ -29,8 +29,8 @@ public class SimpledocApiApplication {
 		return new BCryptPasswordEncoder();
 	}
 
-	@Bean
-	CommandLineRunner run(UserService userService, RoleService roleService) {
+	// @Bean
+	/* CommandLineRunner run(UserService userService, RoleService roleService) {
 		return args -> {
 			roleService.save(new Role(null, "ROLE_ADMIN"));
 			roleService.save(new Role(null, "ROLE_USER"));
@@ -88,6 +88,6 @@ public class SimpledocApiApplication {
 
 
 
-		};
-	}
+		};*/
+	//}
 }

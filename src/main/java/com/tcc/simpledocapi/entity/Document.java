@@ -24,7 +24,7 @@ public class Document {
     @GeneratedValue(strategy = AUTO)
     private Long id;
     private String name;
-    @Column(length = 100000)
+    @Column(length = 1000000000)
     private String content;
     private LocalDateTime createdAt;
     private String creator;
