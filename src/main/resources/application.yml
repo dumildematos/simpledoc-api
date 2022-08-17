@@ -10,7 +10,7 @@ spring:
     password: "}1$&{w6V}wPn" #${DB_PASS}
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
