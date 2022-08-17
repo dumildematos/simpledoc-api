@@ -16,4 +16,5 @@ public interface TeamService {
     void deleteTeam(Long id, String username);
     Team updateTeam(Team id);
 
+    Long getUserTotalOfTeams(Long userId);
 }

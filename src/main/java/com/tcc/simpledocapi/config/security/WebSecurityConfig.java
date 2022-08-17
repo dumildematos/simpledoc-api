@@ -19,6 +19,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import javax.servlet.ServletException;
 import java.util.Arrays;
 
 import static org.springframework.http.HttpMethod.GET;
@@ -54,8 +55,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                             .antMatchers( "/api/login/**", "/api/v1/token/refresh", "/api/v1/user/register/**").permitAll()
                             .and().authorizeRequests().antMatchers(GET, "/api/user/**").hasAnyAuthority("ROLE_USER")
                 .and().logout()
+                .logoutUrl("/me/logout")
+                .invalidateHttpSession(true).permitAll();
+               /* .logout(logout -> logout.logoutUrl("/me/logout").addLogoutHandler(((request, response, authentication) -> {
+                    try {
+                        request.logout();
+                    } catch (ServletException e) {
+
+                    }
+                })));*/
+                /*.and().logout()
                         .logoutUrl("/me/logout")
-                        .invalidateHttpSession(true).permitAll();
+                        .invalidateHttpSession(true).permitAll();*/
 
         http.authorizeRequests().antMatchers(POST, "/api/v1/team/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN");
         http.authorizeRequests().antMatchers(GET, "/api/v1/team/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN");

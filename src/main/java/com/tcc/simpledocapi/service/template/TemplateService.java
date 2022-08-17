@@ -14,5 +14,7 @@ public interface TemplateService {
     Page<Template> listUserTemplates(Long userId,String name, int offset , int size);
     void deleteUserTemplateRelation(Long userId, Long tempId);
     Template updateTemplate(Template template);
+
+    Long userTotalTemplatePrice(Long userId);
     
 }

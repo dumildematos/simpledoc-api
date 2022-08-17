@@ -44,4 +44,9 @@ public class DocumentImpl implements DocumentService{
         documentRepository.deleteById(documentId);
     }
 
+    @Override
+    public Long userTotalOfDocuments(Long userId) {
+        return documentRepository.userTotalOfDocuments(userId);
+    }
+
 }

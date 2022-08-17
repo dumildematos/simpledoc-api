@@ -9,13 +9,19 @@ import com.tcc.simpledocapi.entity.Role;
 import com.tcc.simpledocapi.entity.User;
 import com.tcc.simpledocapi.enums.AuthorizationProvider;
 import com.tcc.simpledocapi.enums.Avatar;
+import com.tcc.simpledocapi.service.document.DocumentService;
+import com.tcc.simpledocapi.service.team.TeamService;
+import com.tcc.simpledocapi.service.template.TemplateService;
 import com.tcc.simpledocapi.service.user.UserService;
 import com.tcc.simpledocapi.service.role.form.RoleToUserForm;
 import com.tcc.simpledocapi.service.user.form.UserForm;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,6 +45,13 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class UserController {
 
     private final UserService userService;
+    private final TemplateService templateService;
+    private final TeamService teamService;
+    private final DocumentService documentService;
+    private final PasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+
 
     @GetMapping("/oauth/user")
     public Principal oauthUser(Principal principal){
@@ -87,13 +100,12 @@ public class UserController {
     public ResponseEntity<?> editUser(@RequestBody UserForm form){
 
         User oldUser = userService.getUser(form.getUsername());
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
 
         User user = new User(
                 form.getId(),
                 form.getUsername(),
-                form.getPassword(),
+                oldUser.getPassword(),
                 form.getFirstname(),
                 form.getLastname(),
                 form.getAvatar(),
@@ -108,6 +120,33 @@ public class UserController {
         );
 
         return ResponseEntity.ok().body(userService.saveUser(user, form.getRole()));
+    }
+
+    @PutMapping("user/change-password")
+    public ResponseEntity<?> changePassword(@RequestBody UserForm form, Principal principal){
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+        User savedUser = userService.getUser(principal.getName());
+
+        User newUserData = new User(
+                savedUser.getId(),
+                savedUser.getUsername(),
+                form.getPassword(),
+                savedUser.getFirstname(),
+                savedUser.getLastname(),
+                savedUser.getAvatar(),
+                savedUser.getBirthdate(),
+                savedUser.getCountry(),
+                savedUser.getPhonenumber(),
+                savedUser.getAuthProvider(),
+                savedUser.getRoles(),
+                savedUser.getTeams(),
+                savedUser.getInvitedTeams(),
+                savedUser.getTemplates()
+        );
+
+
+        return ResponseEntity.ok().body(userService.saveUser(newUserData, form.getRole()));
     }
 
     @GetMapping(value = "/user/list", params = {"page","size"})
@@ -159,5 +198,23 @@ public class UserController {
             throw new RuntimeException("Refresh token is missing");
         }
     }
-}
 
+    @GetMapping("/user/activity")
+    public ResponseEntity<?> getUserActivity(Principal principal ){
+        User user = userService.getUser(principal.getName());
+        Long totalTemplatePrice = templateService.userTotalTemplatePrice(user.getId());
+        Long totalOfTeams = teamService.getUserTotalOfTeams(user.getId());
+        Long totalOfDocuments = documentService.userTotalOfDocuments(user.getId());
+        Map<String, Long> activity = new HashMap<>();
+
+
+        activity.put("totalTemplatePrice", totalTemplatePrice!= null ? totalTemplatePrice: 0L);
+        activity.put("totalOfTeams", totalOfTeams!= null ? totalOfTeams: 0L);
+        activity.put("totalOfDocuments", totalOfDocuments!= null ? totalOfDocuments: 0L);
+
+        log.info(String.valueOf(totalTemplatePrice));
+
+        return ResponseEntity.ok().body(activity);
+    }
+
+}

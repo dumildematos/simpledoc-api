@@ -24,4 +24,6 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
     @Query(value = "delete from team_documents  where team_documents.team_id = ?1 and team_documents.documents_id = ?2", nativeQuery = true)
     void deleteTeamDocumentRelation(@Param("teamId") Long teamId, @Param("docId") Long docId);
 
+    @Query(value = "SELECT count(t.id) from team t inner join user_teams ut on  t.id = ut.teams_id and ut.user_id =?1", nativeQuery = true)
+    Long getUserTotalOfTeams(@Param("userId") Long userId);
 }

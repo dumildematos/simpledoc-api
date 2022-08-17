@@ -10,4 +10,6 @@ public interface DocumentService {
     Document addDocumentToTeam(Long teamId , Document document);
     Page<Document> getDocumentsFromTeam(int offset, int size, Long teamId);
     void deleteDocument(Long documentId, Long teamId);
+
+    Long userTotalOfDocuments(Long userId);
 }

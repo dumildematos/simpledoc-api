@@ -17,4 +17,7 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
     @Query(value = "delete from document_contributors where document_contributors.document_id = ?1 and document_contributors.contributors_id = ?2", nativeQuery = true)
     void deleteDocumentContributorRelation(@Param("docId") Long docId, @Param("contrId") Long contrId);
 
+    @Query(value = "select count(dc.id) from document dc inner join team_documents tdc on dc.id = tdc.documents_id inner join team t on t.id = tdc.team_id inner join user_teams on user_teams.teams_id = t.id and user_teams.user_id =?1", nativeQuery = true)
+    Long userTotalOfDocuments(@Param("userId") Long userId);
+
 }

@@ -80,4 +80,9 @@ public class TeamServiceImpl implements TeamService{
     public Team updateTeam(Team team) {
         return teamRepository.save(team);
     }
+
+    @Override
+    public Long getUserTotalOfTeams(Long userId) {
+        return teamRepository.getUserTotalOfTeams(userId);
+    }
 }

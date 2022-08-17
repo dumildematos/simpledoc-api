@@ -26,4 +26,7 @@ public interface TemplateRepository extends JpaRepository<Template, Long> {
     @Query(value = "delete from user_templates where user_templates.user_id =?1 and templates_id =?2", nativeQuery = true)
     void deleteUserTemplateRelation(@Param("userId") Long userId, @Param("tempId") Long tempId);
 
+    @Query(value = "select  SUM(t.price) from template t left join user_templates ut on t.id = ut.templates_id inner join user u on ut.user_id = u.id and u.id =?1", nativeQuery = true)
+    Long userTotalTemplatePrice(@Param("userId") Long userId);
+
 }

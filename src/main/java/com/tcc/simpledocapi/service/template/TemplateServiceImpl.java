@@ -62,4 +62,9 @@ public class TemplateServiceImpl implements TemplateService{
         tmp.getCategory().clear();
         return templateRepository.save(template);
     }
+
+    @Override
+    public Long userTotalTemplatePrice(Long userId) {
+        return templateRepository.userTotalTemplatePrice(userId);
+    }
 }
