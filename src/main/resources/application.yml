@@ -10,7 +10,7 @@ spring:
     password: "}1$&{w6V}wPn" #${DB_PASS}
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
@@ -21,8 +21,8 @@ spring:
       client:
         registration:
           google:
-            clientId: ${GOOGLE_CLIENT_ID}
-            clientSecret: ${GOOGLE_CLIENT_ID}
+            clientId: "39355448136-tkbj6j2g8n57fkn2h3uen87g833fjvjh.apps.googleusercontent.com" #${GOOGLE_CLIENT_ID}
+            clientSecret: "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" #${GOOGLE_CLIENT_ID}
   servlet:
     multipart:
       enabled: true
