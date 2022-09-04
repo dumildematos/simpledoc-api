@@ -14,9 +14,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import javax.servlet.ServletException;
 import java.util.Arrays;
 
 import static org.springframework.http.HttpMethod.GET;
@@ -49,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
                     .cors().and()
                         .authorizeRequests()
-                            .antMatchers( "/api/login/**", "/api/v1/user/register/**").permitAll()
+                            .antMatchers( "/api/login/**", "/**", "/api/v1/user/register/**").permitAll()
                             .and().authorizeRequests().antMatchers(GET, "/api/user/**").hasAnyAuthority("ROLE_USER")
                 .and().logout()
                 .logoutUrl("/me/logout")
