@@ -5,9 +5,9 @@ server:
 
 spring:
   datasource:
-    url: "jdbc:mysql://s15.infinitysrv.com:3306/simpledo_doc_db"
-    username:  "simpledo_adm"
-    password:  "}1$&{w6V}wPn"
+    url: "jdbc:mysql://s15.infinitysrv.com:3306/simpledo_doc_db" #${BD_URL}
+    username:  "simpledo_adm" #${DB_USER}
+    password: "}1$&{w6V}wPn" #${DB_PASS}
   jpa:
     hibernate:
       ddl-auto: update
@@ -21,8 +21,8 @@ spring:
       client:
         registration:
           google:
-            clientId: "39355448136-tkbj6j2g8n57fkn2h3uen87g833fjvjh.apps.googleusercontent.com"
-            clientSecret: "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"
+            clientId: "39355448136-tkbj6j2g8n57fkn2h3uen87g833fjvjh.apps.googleusercontent.com" #${GOOGLE_CLIENT_ID}
+            clientSecret: "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" #${GOOGLE_CLIENT_ID}
   servlet:
     multipart:
       enabled: true
