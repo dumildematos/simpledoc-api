@@ -5,9 +5,9 @@ server:
 
 spring:
   datasource:
-    url: ${BD_URL} # "jdbc:mysql://s15.infinitysrv.com:3306/simpledo_doc_db" #${BD_URL}
-    username: ${DB_USER} # "simpledo_adm" #${DB_USER}
-    password: ${DB_PASS} #"}1$&{w6V}wPn" #${DB_PASS}
+    url: "jdbc:mysql://s15.infinitysrv.com:3306/simpledo_doc_db"
+    username:  "simpledo_adm"
+    password:  "}1$&{w6V}wPn"
   jpa:
     hibernate:
       ddl-auto: update
