@@ -31,7 +31,6 @@ spring:
       max-request-size: 200MB
 file:
   upload-dir: /Documents/Pictures
-
 mail:
   host: localhost
   port: 1025
