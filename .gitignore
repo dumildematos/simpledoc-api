@@ -1,4 +1,10 @@
 .env
 .DS_Store
 .idea
-./target
+build
+.gradle
+out
+*.iml
+*.ipr
+*.iws
+.DS_Store
