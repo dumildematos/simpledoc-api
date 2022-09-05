@@ -1,1 +1,1 @@
-web: java -Dspring.profiles.active=default -Dserver.port=$PORT -jar target/*.war
+web: java -Dserver.port=$PORT $JAVA_OPTS -jar target/simpledoc-api-0.0.1-SNAPSHOT.jar
