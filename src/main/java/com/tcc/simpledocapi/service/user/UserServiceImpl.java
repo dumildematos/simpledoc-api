@@ -1,5 +1,6 @@
 package com.tcc.simpledocapi.service.user;
 
+import com.sun.tools.sjavac.Log;
 import com.tcc.simpledocapi.entity.Role;
 import com.tcc.simpledocapi.entity.User;
 import com.tcc.simpledocapi.repository.RoleRepository;
@@ -29,13 +30,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public User saveUser(User user, String roleName) {
 
 
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
+        Log.info(encodedPassword);
 
         Role role = roleRepository.findByName(roleName);
         user.getRoles().clear();
