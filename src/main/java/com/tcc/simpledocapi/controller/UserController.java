@@ -76,7 +76,7 @@ public class UserController {
         User user = new User(
                 null,
                 form.getUsername(),
-                passwordEncoder.encode(form.getPassword()),
+                form.getPassword(),
                 form.getFirstname(),
                 form.getLastname(),
                 Avatar.getBase(),
