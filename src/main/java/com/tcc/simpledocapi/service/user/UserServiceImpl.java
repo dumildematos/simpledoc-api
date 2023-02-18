@@ -32,7 +32,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User saveUser(User user, String roleName) {
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+
+        String pass = user.getPassword();
+        user.setPassword(passwordEncoder.encode(pass));
 
 
         Role role = roleRepository.findByName(roleName);
