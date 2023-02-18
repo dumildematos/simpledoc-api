@@ -48,6 +48,7 @@ public class UserController {
     private final TemplateService templateService;
     private final TeamService teamService;
     private final DocumentService documentService;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/oauth/user")
     public Principal oauthUser(Principal principal){
@@ -75,7 +76,7 @@ public class UserController {
         User user = new User(
                 null,
                 form.getUsername(),
-                form.getPassword(),
+                passwordEncoder.encode(form.getPassword()),
                 form.getFirstname(),
                 form.getLastname(),
                 Avatar.getBase(),
