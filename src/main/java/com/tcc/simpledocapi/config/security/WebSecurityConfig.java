@@ -54,7 +54,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         .authorizeRequests()
                             .antMatchers( "/api/login/**", "/**", "/api/v1/user/register/**").permitAll()
                             .and().authorizeRequests().antMatchers(GET, "/api/user/**").hasAnyAuthority("ROLE_USER")
-                .and().logout()
+                .and()
+                .logout()
                 .logoutUrl("/me/logout")
                 .invalidateHttpSession(true).permitAll();
                /* .logout(logout -> logout.logoutUrl("/me/logout").addLogoutHandler(((request, response, authentication) -> {
