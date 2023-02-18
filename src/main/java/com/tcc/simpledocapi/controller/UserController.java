@@ -79,7 +79,7 @@ public class UserController {
         User user = new User(
                 null,
                 form.getUsername(),
-                passwordEncoder.encode(form.getPassword()),
+                form.getPassword(),
                 form.getFirstname(),
                 form.getLastname(),
                 Avatar.getBase(),
@@ -92,6 +92,7 @@ public class UserController {
                 new ArrayList<>(),
                 new ArrayList<>()
         );
+        user.setPassword(passwordEncoder.encode(form.getPassword()));
 
         return ResponseEntity.ok().body(userService.saveUser(user, form.getRole()));
     }
@@ -145,7 +146,7 @@ public class UserController {
                 savedUser.getTemplates()
         );
 
-
+        newUserData.setPassword(passwordEncoder.encode(form.getPassword()));
         return ResponseEntity.ok().body(userService.saveUser(newUserData, form.getRole()));
     }
 
