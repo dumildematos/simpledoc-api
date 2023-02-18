@@ -1,6 +1,6 @@
 package com.tcc.simpledocapi.service.user;
 
-import com.sun.tools.sjavac.Log;
+
 import com.tcc.simpledocapi.entity.Role;
 import com.tcc.simpledocapi.entity.User;
 import com.tcc.simpledocapi.repository.RoleRepository;
