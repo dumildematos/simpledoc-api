@@ -48,10 +48,6 @@ public class UserController {
     private final TemplateService templateService;
     private final TeamService teamService;
     private final DocumentService documentService;
-    private final PasswordEncoder passwordEncoder;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
-
 
     @GetMapping("/oauth/user")
     public Principal oauthUser(Principal principal){
