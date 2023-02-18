@@ -30,12 +30,23 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public User saveUser(User user, String roleName) {
+    public User saveUser(User dto, String roleName) {
 
+        User user = new User();
+        user.setUsername(dto.getUsername());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setFirstname(dto.getFirstname());
+        user.setLastname(dto.getLastname());
+        user.setAvatar(dto.getAvatar());
+        user.setBirthdate(dto.getBirthdate());
+        user.setBirthdate(dto.getBirthdate());
+        user.setCountry(dto.getCountry());
+        user.setPhonenumber(dto.getPhonenumber());
+        user.setAuthProvider(dto.getAuthProvider());
+        user.setTeams(dto.getTeams());
+        user.setInvitedTeams(dto.getInvitedTeams());
+        user.setTemplates(dto.getTemplates());
 
-
-        String pass = user.getPassword();
-        user.setPassword(passwordEncoder.encode(pass));
 
 
         Role role = roleRepository.findByName(roleName);
