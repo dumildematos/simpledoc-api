@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
-        Log.info(encodedPassword);
+        log.info(encodedPassword);
 
         Role role = roleRepository.findByName(roleName);
         user.getRoles().clear();
