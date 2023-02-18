@@ -7,6 +7,7 @@ import com.tcc.simpledocapi.repository.RoleRepository;
 import com.tcc.simpledocapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -29,17 +30,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final PasswordEncoder passwordEncoder;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+
+    private final PasswordEncoder passwordEncoder;
     @Override
     public User saveUser(User user, String roleName) {
 
 
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        /*user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         log.info("\uD83D\uDE0C",encodedPassword);
-        log.info(" \uD83D\uDE42",passwordEncoder.encode(user.getPassword()));
+        log.info(" \uD83D\uDE42",passwordEncoder.encode(user.getPassword()));*/
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         Role role = roleRepository.findByName(roleName);
         user.getRoles().clear();
