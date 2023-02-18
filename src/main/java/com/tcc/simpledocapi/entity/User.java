@@ -29,7 +29,7 @@ public class User {
     @Column(unique = true)
     private String username;
 
-    @JsonProperty(access = WRITE_ONLY)
+    //@JsonProperty(access = WRITE_ONLY)
     @Column(length = 10000000)
     private String password;
     private String firstname;
