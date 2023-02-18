@@ -32,11 +32,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User saveUser(User user, String roleName) {
 
-        if(user.getId() == null && user.getPassword() == null)
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        if(user.getId() != null && user.getPassword() != null)
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
 
         Role role = roleRepository.findByName(roleName);
