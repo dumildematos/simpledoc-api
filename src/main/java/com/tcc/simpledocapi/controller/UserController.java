@@ -79,7 +79,7 @@ public class UserController {
         User user = new User(
                 null,
                 form.getUsername(),
-                form.getPassword(),
+                null,
                 form.getFirstname(),
                 form.getLastname(),
                 Avatar.getBase(),
