@@ -30,6 +30,7 @@ public class User {
     private String username;
 
     @JsonProperty(access = WRITE_ONLY)
+    @Column(length = 10000000)
     private String password;
     private String firstname;
     private String lastname;
