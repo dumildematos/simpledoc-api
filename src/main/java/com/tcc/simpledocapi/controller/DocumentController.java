@@ -1,6 +1,5 @@
 package com.tcc.simpledocapi.controller;
 
-import com.tcc.simpledocapi.config.websocket.WSService;
 import com.tcc.simpledocapi.config.websocket.WebsocketNotification;
 import com.tcc.simpledocapi.entity.*;
 import com.tcc.simpledocapi.service.contributor.ContributorService;
@@ -9,7 +8,6 @@ import com.tcc.simpledocapi.service.document.DocumentService;
 import com.tcc.simpledocapi.service.document.form.DocumentAddForm;
 import com.tcc.simpledocapi.service.template.TemplateService;
 import com.tcc.simpledocapi.service.user.UserService;
-import com.tcc.simpledocapi.service.user.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -17,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -36,7 +34,7 @@ public class DocumentController {
     private final TemplateService templateService;
     private final UserService userService;
     private final ContributorService contributorService;
-    private final SimpMessagingTemplate simpMessagingTemplate;
+
 
     @PostMapping("/document/create")
     public ResponseEntity<Document> createTeamDocument(@RequestBody DocumentAddForm form, Principal principal){
@@ -100,17 +98,13 @@ public class DocumentController {
         return ResponseEntity.ok().build();
     }
 
-    @MessageMapping("/message")
+    /*@MessageMapping("/message")
     @SendTo("/chatroom/public")
     public WebsocketNotification receivePublicMessage(@Payload WebsocketNotification message) {
         return message;
-    }
+    }*/
 
-    @MessageMapping("/private-message")
-    public WebsocketNotification privateNotification (@Payload WebsocketNotification notification) {
-        simpMessagingTemplate.convertAndSendToUser(notification.getReceiverName(), "/private", notification);
-        return notification;
-    }
+
 
 }
 
