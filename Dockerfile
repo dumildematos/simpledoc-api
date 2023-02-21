@@ -12,4 +12,4 @@ FROM openjdk:11-jdk-slim
 COPY --from=build /target/simpledoc-api-0.0.1-SNAPSHOT.jar simpledoc-api.jar
 # ENV PORT=8080
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","demo.jar"]
+ENTRYPOINT ["java","-jar","simpledoc-api.jar"]
