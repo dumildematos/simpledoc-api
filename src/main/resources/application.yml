@@ -4,12 +4,12 @@ server:
     include-binding-errors: always
 spring:
   datasource:
-    url: ${BD_URL} #"jdbc:mysql://s15.infinitysrv.com:3306/simpledo_doc_db"
-    username: ${DB_USER} #"simpledo_adm"
-    password:  ${DB_PASS} #"}1$&{w6V}wPn"
+    url: "jdbc:mysql://s15.infinitysrv.com:3306/simpledo_doc_db" #${BD_URL} #"jdbc:mysql://s15.infinitysrv.com:3306/simpledo_doc_db"
+    username: "simpledo_presentation" #${DB_USER} #"simpledo_adm"
+    password:  "=Or1}*F~CZnP" #${DB_PASS} #"}1$&{w6V}wPn"
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
