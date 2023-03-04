@@ -9,7 +9,7 @@ spring:
     password:  ${DB_PASS} #"}1$&{w6V}wPn"
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
@@ -30,22 +30,28 @@ spring:
       max-request-size: 200MB
   messages:
     basename: i18n/messages
+  mail:
+    host: mail.simpledoc.io
+    port: 465
+    username: support@simpledoc.io
+    password: "@-rT)O}1eKhW"
+    protocol: smtp
+
+    properties:
+      mail:
+        smtp:
+          ssl:
+            trust: "*"
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 3000
+          writetimeout: 5000
+
+
+
 file:
   upload-dir: /Documents/Pictures
-mail:
-  host: localhost
-  port: 1025
-  username: hello
-  password: hello
 
-  properties:
-    mail:
-      smtp:
-        ssl:
-          trust: "*"
-        auth: true
-        starttls:
-          enable: true
-        connectiontimeout: 5000
-        timeout: 3000
-        writetimeout: 5000
+

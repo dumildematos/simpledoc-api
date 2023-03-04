@@ -5,22 +5,27 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tcc.simpledocapi.entity.ConfirmationToken;
 import com.tcc.simpledocapi.entity.Role;
 import com.tcc.simpledocapi.entity.User;
 import com.tcc.simpledocapi.enums.AuthorizationProvider;
 import com.tcc.simpledocapi.enums.Avatar;
+import com.tcc.simpledocapi.repository.ConfirmationTokenRepository;
 import com.tcc.simpledocapi.service.document.DocumentService;
+import com.tcc.simpledocapi.service.email.ConfirmationTokenService;
+import com.tcc.simpledocapi.service.email.EmailDetails;
+import com.tcc.simpledocapi.service.email.EmailService;
 import com.tcc.simpledocapi.service.team.TeamService;
 import com.tcc.simpledocapi.service.template.TemplateService;
 import com.tcc.simpledocapi.service.user.UserService;
 import com.tcc.simpledocapi.service.role.form.RoleToUserForm;
 import com.tcc.simpledocapi.service.user.form.UserForm;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +39,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -48,7 +52,10 @@ public class UserController {
     private final TemplateService templateService;
     private final TeamService teamService;
     private final DocumentService documentService;
-    private final PasswordEncoder passwordEncoder;
+    private ConfirmationTokenRepository confirmationTokenRepository;
+
+
+
 
     @GetMapping("/oauth/user")
     public Principal oauthUser(Principal principal){
@@ -72,7 +79,6 @@ public class UserController {
         }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
-
         User user = new User(
                 null,
                 form.getUsername(),
@@ -83,6 +89,8 @@ public class UserController {
                 LocalDate.parse(form.getBirthday(), formatter),
                 form.getCountry(),
                 form.getPhonenumber(),
+                0,
+                null,
                 AuthorizationProvider.LOCAL ,
                 new ArrayList<>(),
                 new ArrayList<>(),
@@ -110,6 +118,8 @@ public class UserController {
                 LocalDate.parse(form.getBirthday(), formatter),
                 form.getCountry(),
                 form.getPhonenumber(),
+                1,
+                null,
                 AuthorizationProvider.LOCAL ,
                 oldUser.getRoles(),
                 oldUser.getTeams(),
@@ -136,6 +146,8 @@ public class UserController {
                 savedUser.getBirthdate(),
                 savedUser.getCountry(),
                 savedUser.getPhonenumber(),
+                savedUser.getIsEnabled(),
+                savedUser.getGender(),
                 savedUser.getAuthProvider(),
                 savedUser.getRoles(),
                 savedUser.getTeams(),

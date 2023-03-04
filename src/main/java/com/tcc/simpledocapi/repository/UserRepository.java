@@ -18,6 +18,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "delete from user_teams  where user_teams.teams_id = ?1", nativeQuery = true)
     void deleteUserTeamAssociation(@Param("teamId") Long teamId);
 
+    User findByUsernameIgnoreCase(String username);
+
     //@Query("SELECT u.teams FROM User as u WHERE u.id =: userId")
     // Page<Team> findUserTeamsByUserId(@Param("userId") Long userId);
 

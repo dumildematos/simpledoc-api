@@ -1,10 +1,14 @@
 package com.tcc.simpledocapi.service.user;
 
 
+import com.tcc.simpledocapi.entity.ConfirmationToken;
 import com.tcc.simpledocapi.entity.Role;
 import com.tcc.simpledocapi.entity.User;
+import com.tcc.simpledocapi.repository.ConfirmationTokenRepository;
 import com.tcc.simpledocapi.repository.RoleRepository;
 import com.tcc.simpledocapi.repository.UserRepository;
+import com.tcc.simpledocapi.service.email.EmailDetails;
+import com.tcc.simpledocapi.service.email.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -31,9 +34,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
-
+    private  final ConfirmationTokenRepository confirmationTokenRepository;
 
     private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private EmailService emailService;
     @Override
     public User saveUser(User user, String roleName) {
 
@@ -44,12 +49,35 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         log.info(" \uD83D\uDE42",passwordEncoder.encode(user.getPassword()));*/
         user.setPassword(passwordEncoder.encode((user.getPassword())));
 
-
         Role role = roleRepository.findByName(roleName);
         user.getRoles().clear();
         user.getRoles().add(role);
 
-        return userRepository.save(user);
+        Optional<User> gUser = Optional.of(userRepository.save(user));
+
+
+
+            ConfirmationToken confirmationToken = new ConfirmationToken(
+                    null,
+                    UUID.randomUUID().toString(),
+                    new Date(),
+                    gUser.get()
+            );
+
+            EmailDetails mailMessage = new EmailDetails(
+                    gUser.get().getUsername(),
+                    "To confirm your account, please click here : "
+                            +"http://localhost:8080/confirm-account?token="+confirmationToken.getConfirmationToken(),
+                    "Complete Registration!",
+                    null);
+            confirmationTokenRepository.save(confirmationToken);
+
+
+            emailService.sendSimpleMail(mailMessage);
+
+
+
+        return gUser.get();
     }
 
     @Override

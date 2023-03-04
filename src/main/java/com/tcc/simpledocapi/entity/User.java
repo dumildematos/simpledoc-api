@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.minidev.json.annotate.JsonIgnore;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -40,6 +41,9 @@ public class User {
     private String country;
     private String phonenumber;
 
+    private Integer isEnabled;
+    @Nullable
+    private String gender;
 
     @Enumerated(STRING)
     private AuthorizationProvider authProvider;
