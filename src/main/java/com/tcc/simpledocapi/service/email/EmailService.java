@@ -7,4 +7,5 @@ public interface EmailService {
     String sendMailWithAttachment(EmailDetails details);
 
 
+
 }

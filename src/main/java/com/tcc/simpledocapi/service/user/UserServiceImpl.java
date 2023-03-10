@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,6 +24,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.sql.Timestamp;
 import java.util.*;
 
 @Service
@@ -37,10 +42,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private  final ConfirmationTokenRepository confirmationTokenRepository;
 
     private final PasswordEncoder passwordEncoder;
+    private final HttpServletRequest request;
     @Autowired
     private EmailService emailService;
     @Override
-    public User saveUser(User user, String roleName) {
+    public User saveUser(User user, String roleName) throws MalformedURLException {
 
 
         /*user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
@@ -55,29 +61,47 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         Optional<User> gUser = Optional.of(userRepository.save(user));
 
+            if(gUser.get().getIsEnabled() == 0) {
 
+                Date expiryDate = calculateExpiryDate(5);
 
-            ConfirmationToken confirmationToken = new ConfirmationToken(
-                    null,
-                    UUID.randomUUID().toString(),
-                    new Date(),
-                    gUser.get()
-            );
+                ConfirmationToken confirmationToken = new ConfirmationToken(
+                        null,
+                        UUID.randomUUID().toString(),
+                        expiryDate,
+                        gUser.get()
+                );
 
-            EmailDetails mailMessage = new EmailDetails(
-                    gUser.get().getUsername(),
-                    "To confirm your account, please click here : "
-                            +"http://localhost:8080/confirm-account?token="+confirmationToken.getConfirmationToken(),
-                    "Complete Registration!",
-                    null);
-            confirmationTokenRepository.save(confirmationToken);
+                URL domain = new URL(request.getRequestURL().toString());
 
+                EmailDetails mailMessage = new EmailDetails(
+                        gUser.get().getUsername(),
+                        "To confirm your account, please click here : "
+                                +"http://localhost:8080/user/confirm-account?token="+confirmationToken.getConfirmationToken(),
+                        "Complete Registration!",
+                        null);
 
-            emailService.sendSimpleMail(mailMessage);
+                SimpleMailMessage email = new SimpleMailMessage();
+                email.setTo(gUser.get().getUsername());
+                email.setSubject("Complete Registration!");
+                email.setText("To confirm your account, please click here : " + "\r\n" + "http://localhost:8080/user/confirm-account?token=" + confirmationToken.getConfirmationToken());
+
+                confirmationTokenRepository.save(confirmationToken);
+
+                emailService.sendSimpleMail(mailMessage);
+            }
+
 
 
 
         return gUser.get();
+    }
+
+    private Date calculateExpiryDate(int expiryTimeInMinutes) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Timestamp(cal.getTime().getTime()));
+        cal.add(Calendar.MINUTE, expiryTimeInMinutes);
+        return new Date(cal.getTime().getTime());
     }
 
     @Override

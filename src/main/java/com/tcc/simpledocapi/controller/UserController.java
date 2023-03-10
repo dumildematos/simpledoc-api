@@ -28,10 +28,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -69,7 +71,7 @@ public class UserController {
     }
 
     @PostMapping("/user/register")
-    private ResponseEntity<?> addUser (@RequestBody UserForm form) {
+    public ResponseEntity<?> addUser (@RequestBody UserForm form) throws MalformedURLException {
         Optional<User> existedUser = Optional.ofNullable(userService.getUser(form.getUsername()));
 
         if(existedUser.isPresent()) {
@@ -103,7 +105,7 @@ public class UserController {
     }
 
     @PutMapping("user/edit")
-    public ResponseEntity<?> editUser(@RequestBody UserForm form){
+    public ResponseEntity<?> editUser(@RequestBody UserForm form) throws MalformedURLException {
 
         User oldUser = userService.getUser(form.getUsername());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
@@ -131,7 +133,7 @@ public class UserController {
     }
 
     @PutMapping("user/change-password")
-    public ResponseEntity<?> changePassword(@RequestBody UserForm form, Principal principal){
+    public ResponseEntity<?> changePassword(@RequestBody UserForm form, Principal principal) throws MalformedURLException {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
         User savedUser = userService.getUser(principal.getName());
