@@ -5,10 +5,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+
+import javax.mail.MessagingException;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 
 @Service
@@ -16,6 +24,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 public class EmailServiceImpl implements EmailService {
 
     @Autowired private JavaMailSender javaMailSender;
+
+    @Autowired
+    private TemplateEngine templateEngine;
 
 
     @Value("${spring.mail.username}") private String sender;
@@ -53,5 +64,26 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public String sendMailWithAttachment(EmailDetails details) {
         return null;
+    }
+
+    @Override
+    public void sendEmailWithTemplate(String recipientEmail, String subject, Map<String, Object> templateModel) {
+
+        MimeMessagePreparator messagePreparator = mimeMessage -> {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                    StandardCharsets.UTF_8.name());
+            messageHelper.setTo(recipientEmail);
+            messageHelper.setSubject(subject);
+            String content = generateTemplateContent(templateModel);
+            messageHelper.setText(content, true);
+        };
+        javaMailSender.send(messagePreparator);
+
+    }
+
+    private String generateTemplateContent(Map<String, Object> templateModel) throws MessagingException {
+        Context context = new Context();
+        context.setVariables(templateModel);
+        return templateEngine.process("complete-registration", context);
     }
 }

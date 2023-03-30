@@ -74,21 +74,35 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
                 URL domain = new URL(request.getRequestURL().toString());
 
+                String url = request.getRequestURL().toString();
+                String protocol = request.getProtocol().split("/")[0];
+                String baseUrl = url.split(request.getContextPath())[0];
+
+
+                String batch  = domain.toString().split("/api/v1/user/register")[0];
+                log.info("\uD83D\uDE0C"+ batch);
+
+
                 EmailDetails mailMessage = new EmailDetails(
                         gUser.get().getUsername(),
                         "To confirm your account, please click here : "
-                                +"http://localhost:8080/user/confirm-account?token="+confirmationToken.getConfirmationToken(),
+                                + batch + "/user/confirm-account?token="+confirmationToken.getConfirmationToken(),
                         "Complete Registration!",
                         null);
 
-                SimpleMailMessage email = new SimpleMailMessage();
+                /*SimpleMailMessage email = new SimpleMailMessage();
                 email.setTo(gUser.get().getUsername());
                 email.setSubject("Complete Registration!");
-                email.setText("To confirm your account, please click here : " + "\r\n" + "http://localhost:8080/user/confirm-account?token=" + confirmationToken.getConfirmationToken());
+                email.setText("To confirm your account, please click here : " + "\r\n" + "http://localhost:8080/user/confirm-account?token=" + confirmationToken.getConfirmationToken());*/
 
                 confirmationTokenRepository.save(confirmationToken);
 
                 emailService.sendSimpleMail(mailMessage);
+
+                /*Map<String, Object> templateModel = new HashMap<>();
+                templateModel.put("message", "Hello, this is a test email!");
+                emailService.sendEmailWithTemplate("recipient@example.com", "Test Email", templateModel);*/
+
             }
 
 
