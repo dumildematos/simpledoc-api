@@ -14,12 +14,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,10 +83,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
                 EmailDetails mailMessage = new EmailDetails(
                         gUser.get().getUsername(),
-                        "To confirm your account, please click here : "
-                                + batch + "/user/confirm-account?token="+confirmationToken.getConfirmationToken(),
+                        "To confirm your account, please click here : ",
+                        batch + "/user/confirm-account?token="+confirmationToken.getConfirmationToken(),
                         "Complete Registration!",
                         null);
+
+
 
                 /*SimpleMailMessage email = new SimpleMailMessage();
                 email.setTo(gUser.get().getUsername());
@@ -109,6 +109,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 
         return gUser.get();
+    }
+
+    @Override
+    public void updateUserWithoutPassword(User user) {
+        userRepository.updateUserWithoutPassword(user.getUsername(),
+                user.getAuthProvider().toString(),
+                user.getAvatar(),
+                user.getBirthdate().toString(),
+                user.getCountry(),
+                user.getFirstname(),
+                user.getLastname(),
+                user.getGender(),
+                user.getIsEnabled(),
+                user.getPhonenumber());
     }
 
     private Date calculateExpiryDate(int expiryTimeInMinutes) {

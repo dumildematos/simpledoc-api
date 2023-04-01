@@ -2,6 +2,7 @@ package com.tcc.simpledocapi.controller;
 
 import com.tcc.simpledocapi.entity.ConfirmationToken;
 import com.tcc.simpledocapi.entity.User;
+import com.tcc.simpledocapi.enums.AuthorizationProvider;
 import com.tcc.simpledocapi.repository.ConfirmationTokenRepository;
 import com.tcc.simpledocapi.service.document.DocumentService;
 import com.tcc.simpledocapi.service.email.ConfirmationTokenService;
@@ -25,6 +26,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.net.MalformedURLException;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Optional;
@@ -55,7 +57,7 @@ public class ConfirmationController {
             } else {
                 User user  = cToken.get().getUser();
                 user.setIsEnabled(1);
-                userService.saveUser(user, "ROLE_USER");
+                userService.updateUserWithoutPassword(user);
                 modelAndView.setViewName("confirmation-success");
             }
         }

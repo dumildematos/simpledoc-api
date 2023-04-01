@@ -45,13 +45,19 @@ public class EmailServiceImpl implements EmailService {
 
             mailMessage.setFrom(sender);
             mailMessage.setTo(details.getRecipient());
-            mailMessage.setText(details.getMsgBody());
+            //mailMessage.setText(details.getMsgBody());
             mailMessage.setSubject(details.getSubject());
 
+            String html = "<html><body>" +
+                    "<h3>"+details.getSubject()+"</h3>" +
+                    "<p>"+ details.getMsgBody() +"</p>" +
+                    "<p><a href=\"" + details.getLink() + "\" style=\"background-color: #4c5fe1; color: white; padding: 10px 16px; text-align: center; text-decoration: none; display: inline-block; border-radius: 5px;\">Click me</a></p>" +
+                    "</body></html>";
             // Sending the mail
+            mailMessage.setText(html);
             javaMailSender.send(mailMessage);
-            log.info("Mail Sent Successfully...to:   " + details.getRecipient());
-            log.info("... From: " + sender);
+            // log.info("Mail Sent Successfully...to:   " + details.getRecipient());
+            // log.info("... From: " + sender);
         }
 
         // Catch block to handle the exceptions
