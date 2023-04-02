@@ -120,16 +120,16 @@ public class UserController {
                 LocalDate.parse(form.getBirthday(), formatter),
                 form.getCountry(),
                 form.getPhonenumber(),
-                1,
-                null,
+                oldUser.getIsEnabled(),
+                oldUser.getGender(),
                 AuthorizationProvider.LOCAL ,
                 oldUser.getRoles(),
                 oldUser.getTeams(),
                 oldUser.getInvitedTeams(),
                 oldUser.getTemplates()
         );
-
-        return ResponseEntity.ok().body(userService.saveUser(user, form.getRole()));
+        userService.updateUserWithoutPassword(user);
+        return ResponseEntity.ok().body(user);
     }
 
     @PutMapping("user/change-password")

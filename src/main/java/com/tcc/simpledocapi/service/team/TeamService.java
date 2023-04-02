@@ -3,6 +3,8 @@ package com.tcc.simpledocapi.service.team;
 import com.tcc.simpledocapi.entity.Team;
 import org.springframework.data.domain.Page;
 
+import java.util.Optional;
+
 
 public interface TeamService {
 
@@ -15,6 +17,8 @@ public interface TeamService {
 
     void deleteTeam(Long id, String username);
     Team updateTeam(Team id);
+
+    Optional<Team> getTeamById(Long id);
 
     Long getUserTotalOfTeams(Long userId);
 }

@@ -6,6 +6,8 @@ public interface EmailService {
 
     void sendSimpleMail(EmailDetails details);
 
+    void sendDocumentInvitationEmail(EmailDetails details, String idsPath);
+
     String sendMailWithAttachment(EmailDetails details);
 
 

@@ -90,11 +90,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 
 
-                /*SimpleMailMessage email = new SimpleMailMessage();
-                email.setTo(gUser.get().getUsername());
-                email.setSubject("Complete Registration!");
-                email.setText("To confirm your account, please click here : " + "\r\n" + "http://localhost:8080/user/confirm-account?token=" + confirmationToken.getConfirmationToken());*/
-
                 confirmationTokenRepository.save(confirmationToken);
 
                 emailService.sendSimpleMail(mailMessage);
@@ -135,6 +130,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User getUser(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public Optional<User> getUserById(Long id) {
+        return userRepository.findById(id);
     }
 
     @Override

@@ -19,6 +19,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -62,9 +63,10 @@ public class DocumentController {
     }
 
     @PostMapping("/document/add/contributor")
-    public ResponseEntity<?> addContributorToDocumento(@RequestBody AddContributorToDocForm form, Principal principal){
+    public ResponseEntity<?> addContributorToDocumento(@RequestBody AddContributorToDocForm form, Principal principal) throws MalformedURLException {
 
             Optional<User> user = Optional.ofNullable(userService.getUser(form.getUsername()));
+            User owner = userService.getUser(principal.getName());
 
             Contributor contributor;
 
@@ -83,12 +85,14 @@ public class DocumentController {
                             user.get().getLastname(),
                             form.getTeamId(),
                             form.getDocumentId(),
+                            0,
                             user.get().getAvatar(),
                             form.getRole());
+
                 }
 
             }
-        return ResponseEntity.ok().body(contributorService.addDocumentContributor(form.getDocumentId(), contributor));
+        return ResponseEntity.ok().body(contributorService. addDocumentContributor(form.getDocumentId(), contributor, owner));
     }
 
     @DeleteMapping(value = "/document/{docId}/{teamId}")

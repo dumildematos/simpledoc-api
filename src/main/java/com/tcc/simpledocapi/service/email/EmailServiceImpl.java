@@ -67,6 +67,42 @@ public class EmailServiceImpl implements EmailService {
         }
     }
 
+    public void sendDocumentInvitationEmail(EmailDetails details, String idsPath) {
+        try {
+
+            // Creating a simple mail message
+            SimpleMailMessage mailMessage
+                    = new SimpleMailMessage();
+
+            // Setting up necessary details
+
+            mailMessage.setFrom(sender);
+            mailMessage.setTo(details.getRecipient());
+            //mailMessage.setText(details.getMsgBody());
+            mailMessage.setSubject(details.getSubject());
+
+            String html = "<html><style>*{font-family: sans-serif;padding: 5px;margin: 5px;}</style><body>" +
+                    "<h3>"+details.getSubject()+"</h3>" +
+                    "<p>"+ details.getMsgBody() +"</p>" +
+                    "<p>" +
+                    "<a href=\"" + details.getLink() + "/accept/" + idsPath +"\" style=\"background-color: #4c5fe1; color: white; padding: 10px 16px; text-align: center; text-decoration: none; display: inline-block; border-radius: 5px;\">Accept</a>" +
+                    "<a href=\"" + details.getLink() + "/reject/" + idsPath + "\" style=\"background-color: #cf4749; color: white; padding: 10px 16px; text-align: center; text-decoration: none; display: inline-block; border-radius: 5px;\">Deny</a>"+
+                    "</p>" +
+
+                    "</body></html>";
+            // Sending the mail
+            mailMessage.setText(html);
+            javaMailSender.send(mailMessage);
+            // log.info("Mail Sent Successfully...to:   " + details.getRecipient());
+            // log.info("... From: " + sender);
+        }
+
+        // Catch block to handle the exceptions
+        catch (Exception e) {
+            log.info("Error while Sending Mail...");
+            log.info(e.toString());
+        }
+    }
     @Override
     public String sendMailWithAttachment(EmailDetails details) {
         return null;

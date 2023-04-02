@@ -45,6 +45,11 @@ public class DocumentImpl implements DocumentService{
     }
 
     @Override
+    public Optional<Document> getDocumentById(Long id) {
+        return documentRepository.findById(id);
+    }
+
+    @Override
     public Long userTotalOfDocuments(Long userId) {
         return documentRepository.userTotalOfDocuments(userId);
     }

@@ -26,6 +26,8 @@ public class Contributor {
     private String lastName;
     private Long teamId;
     private Long documentId;
+
+    private Integer status;
     @Column(length = 100000)
     private String avatar;
 
